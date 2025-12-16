@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Đăng nhập • Cổng Dịch Vụ Nội Bộ</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <style>
+         :root {
+            --bg: #f6f8fb;
+            --surface: #fff;
+            --surface2: #fbfcff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e6eaf2;
+            --shadow: 0 14px 34px rgba(15, 23, 42, .08);
+            --shadow2: 0 10px 26px rgba(15, 23, 42, .06);
+            --primary: #2563eb;
+            --primary-soft: rgba(37, 99, 235, .10);
+            --mint: #10b981;
+            --mint-soft: rgba(16, 185, 129, .10);
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            --radius: 18px;
+            --radius2: 14px;
+            --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        html,
+        body {
+            height: 100%
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--font);
+            color: var(--text);
+            background: radial-gradient(900px 420px at 10% 0%, rgba(37, 99, 235, .10), transparent 55%), radial-gradient(700px 380px at 90% 10%, rgba(16, 185, 129, .10), transparent 55%), radial-gradient(760px 420px at 20% 95%, rgba(245, 158, 11, .10), transparent 55%), var(--bg);
+        }
+        
+        .wrap {
+            min-height: 100vh;
+            display: grid;
+            place-items: center;
+            padding: 18px;
+        }
+        
+        .card {
+            width: min(980px, 100%);
+            display: grid;
+            grid-template-columns: 1.1fr .9fr;
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            background: rgba(255, 255, 255, .78);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .left {
+            padding: 26px;
+            border-right: 1px solid var(--border);
+            background: linear-gradient(135deg, rgba(37, 99, 235, .07), rgba(16, 185, 129, .05));
+        }
+        
+        .brand {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .logo {
+            width: 44px;
+            height: 44px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, rgba(37, 99, 235, .95), rgba(16, 185, 129, .85));
+            box-shadow: 0 12px 22px rgba(37, 99, 235, .16);
+        }
+        
+        h1 {
+            margin: 14px 0 6px;
+            font-size: 18px;
+            letter-spacing: .1px;
+            font-weight: 650;
+        }
+        
+        p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.65;
+            max-width: 56ch;
+        }
+        
+        .features {
+            margin-top: 16px;
+            display: grid;
+            gap: 10px;
+        }
+        
+        .feat {
+            display: flex;
+            gap: 10px;
+            align-items: flex-start;
+            padding: 12px;
+            border-radius: 16px;
+            border: 1px solid rgba(15, 23, 42, .06);
+            background: rgba(255, 255, 255, .7);
+        }
+        
+        .ico {
+            width: 38px;
+            height: 38px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: var(--primary);
+        }
+        
+        .feat b {
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .feat span {
+            display: block;
+            color: var(--muted);
+            font-size: 12.5px;
+            margin-top: 2px;
+            line-height: 1.55;
+        }
+        
+        .right {
+            padding: 26px;
+            background: var(--surface);
+        }
+        
+        .title {
+            font-weight: 650;
+            font-size: 16px;
+            margin: 0 0 6px;
+        }
+        
+        .sub {
+            margin: 0 0 14px;
+            color: var(--muted);
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        
+        label {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        input {
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            padding: 11px 12px;
+            border-radius: 14px;
+            outline: none;
+            font-size: 14px;
+            color: var(--text);
+        }
+        
+        .row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0 16px;
+        }
+        
+        .chk {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+        
+        .btn {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 11px 12px;
+            border-radius: 14px;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, .04);
+            transition: .18s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            background: var(--surface2);
+        }
+        
+        .btn.primary {
+            border-color: rgba(37, 99, 235, .20);
+            background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(16, 185, 129, .08));
+        }
+        
+        .btn.primary i {
+            color: var(--primary);
+        }
+        
+        .alt {
+            margin-top: 12px;
+            display: grid;
+            gap: 10px;
+        }
+        
+        .hint {
+            margin-top: 14px;
+            color: var(--muted);
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+        
+        @media (max-width: 900px) {
+            .card {
+                grid-template-columns: 1fr;
+            }
+            .left {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="card">
+            <div class="left">
+                <div class="brand">
+                    <div class="logo"></div>
+                    <div>
+                        <div style="font-weight:650; font-size:14px;">Cổng Dịch Vụ Nội Bộ</div>
+                        <div style="color:var(--muted); font-size:12.5px; margin-top:2px;">Dành cho nhân viên • Doanh nghiệp</div>
+                    </div>
+                </div>
+
+                <h1>Đăng ký dịch vụ nhanh — theo dõi rõ ràng</h1>
+                <p>Nhân viên tạo yêu cầu (đổi tiền Tết, cấp đồ dùng, cây cảnh, ticket hỗ trợ) → hệ thống duyệt/xử lý → lưu lịch sử minh bạch.</p>
+
+                <div class="features">
+                    <div class="feat">
+                        <div class="ico"><i class="fa-regular fa-shield-halved"></i></div>
+                        <div><b>Audit & lịch sử</b><span>Mọi thay đổi trạng thái đều có log.</span></div>
+                    </div>
+                    <div class="feat">
+                        <div class="ico" style="color:var(--mint)"><i class="fa-regular fa-circle-check"></i></div>
+                        <div><b>Quy trình rõ</b><span>Quota/định mức/khung giờ nhận theo chính sách.</span></div>
+                    </div>
+                    <div class="feat">
+                        <div class="ico" style="color:var(--amber)"><i class="fa-regular fa-clock"></i></div>
+                        <div><b>SLA xử lý</b><span>Ticket hỗ trợ có thời gian phản hồi.</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right">
+                <p class="title">Đăng nhập</p>
+                <p class="sub">Sử dụng tài khoản nội bộ hoặc SSO (Azure AD/Google Workspace).</p>
+
+                <div class="field">
+                    <label>Email công ty</label>
+                    <input placeholder="name@company.com" />
+                </div>
+                <div class="field">
+                    <label>Mật khẩu</label>
+                    <input type="password" placeholder="••••••••" />
+                </div>
+
+                <div class="row">
+                    <label class="chk"><input type="checkbox" /> Ghi nhớ đăng nhập</label>
+                    <a href="#" style="color:var(--primary); font-size:13px;">Quên mật khẩu?</a>
+                </div>
+
+                <button class="btn primary"><i class="fa-solid fa-right-to-bracket"></i> Đăng nhập</button>
+
+                <div class="alt">
+                    <button class="btn"><i class="fa-brands fa-microsoft"></i> Đăng nhập với Microsoft SSO</button>
+                    <button class="btn"><i class="fa-brands fa-google"></i> Đăng nhập với Google SSO</button>
+                </div>
+
+                <div class="hint">
+                    * Đây là UI demo. Khi dev thật: tích hợp SSO + phân quyền theo vai trò (Nhân viên / Admin / Kho / Kế toán).
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

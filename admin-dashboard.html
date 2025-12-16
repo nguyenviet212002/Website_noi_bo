@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Admin • Tổng quan</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+         :root {
+            --bg: #f6f8fb;
+            --surface: #fff;
+            --surface2: #fbfcff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e6eaf2;
+            --shadow: 0 14px 34px rgba(15, 23, 42, .08);
+            --shadow2: 0 10px 26px rgba(15, 23, 42, .06);
+            --primary: #2563eb;
+            --primary-soft: rgba(37, 99, 235, .10);
+            --mint: #10b981;
+            --mint-soft: rgba(16, 185, 129, .10);
+            --amber: #f59e0b;
+            --amber-soft: rgba(245, 158, 11, .12);
+            --rose: #f43f5e;
+            --rose-soft: rgba(244, 63, 94, .10);
+            --radius: 18px;
+            --max: 1180px;
+            --gap: 16px;
+            --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--bg);
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+        
+        .wrap {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap);
+        }
+        
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 650;
+        }
+        
+        .sub {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, .04);
+            transition: .18s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            background: var(--surface2);
+        }
+        
+        .btn.primary {
+            border-color: rgba(37, 99, 235, .20);
+            background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(16, 185, 129, .08));
+        }
+        
+        .btn.primary i {
+            color: var(--primary);
+        }
+        
+        .kpis {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+        }
+        
+        .kpi {
+            padding: 14px;
+            border-radius: 18px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            box-shadow: var(--shadow2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .kpi .label {
+            color: var(--muted);
+            font-size: 12.5px;
+        }
+        
+        .kpi .value {
+            font-size: 18px;
+            font-weight: 800;
+        }
+        
+        .tag {
+            font-size: 12px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: #334155;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1.2fr .8fr;
+            gap: var(--gap);
+        }
+        
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow2);
+            padding: 16px;
+        }
+        
+        .head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        
+        .head h2 {
+            margin: 0;
+            font-size: 14px;
+            font-weight: 650;
+        }
+        
+        .muted {
+            color: var(--muted);
+            font-size: 13px;
+        }
+        
+        .shortcuts {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        
+        .tile {
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface2);
+            cursor: pointer;
+            transition: .18s ease;
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+        
+        .tile:hover {
+            transform: translateY(-1px);
+            background: #fff;
+        }
+        
+        .ico {
+            width: 40px;
+            height: 40px;
+            border-radius: 16px;
+            display: grid;
+            place-items: center;
+            border: 1px solid var(--border);
+            background: #fff;
+        }
+        
+        .ico.blue {
+            background: var(--primary-soft);
+            border-color: rgba(37, 99, 235, .16);
+            color: var(--primary);
+        }
+        
+        .ico.mint {
+            background: var(--mint-soft);
+            border-color: rgba(16, 185, 129, .16);
+            color: var(--mint);
+        }
+        
+        .ico.amber {
+            background: var(--amber-soft);
+            border-color: rgba(245, 158, 11, .18);
+            color: var(--amber);
+        }
+        
+        .ico.rose {
+            background: var(--rose-soft);
+            border-color: rgba(244, 63, 94, .18);
+            color: var(--rose);
+        }
+        
+        .tile b {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 650;
+        }
+        
+        .tile span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 12.5px;
+            line-height: 1.55;
+        }
+        
+        .table-wrap {
+            overflow: auto;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 860px;
+            background: var(--surface);
+        }
+        
+        th,
+        td {
+            padding: 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+            text-align: left;
+        }
+        
+        th {
+            background: var(--surface2);
+            color: #334155;
+            font-weight: 700;
+        }
+        
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            font-size: 12px;
+            color: #334155;
+            white-space: nowrap;
+        }
+        
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #cbd5e1;
+        }
+        
+        .pending .dot {
+            background: var(--amber)
+        }
+        
+        .processing .dot {
+            background: var(--primary)
+        }
+        
+        .done .dot {
+            background: var(--mint)
+        }
+        
+        .rejected .dot {
+            background: var(--rose)
+        }
+        
+        .link {
+            color: var(--primary);
+            font-weight: 650;
+        }
+        
+        @media (max-width: 980px) {
+            .kpis {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 560px) {
+            .kpis {
+                grid-template-columns: 1fr;
+            }
+            .shortcuts {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="top">
+            <div>
+                <h1>Admin • Tổng quan</h1>
+                <p class="sub">Nhìn nhanh trạng thái hệ thống: yêu cầu, quota đổi tiền Tết, tồn kho, cảnh báo.</p>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> Về Portal</a>
+                <a class="btn" href="account.html"><i class="fa-regular fa-user"></i> Tài khoản</a>
+                <a class="btn primary" href="admin-approvals.html"><i class="fa-solid fa-user-check"></i> Duyệt yêu cầu</a>
+            </div>
+        </div>
+
+        <div class="kpis">
+            <div class="kpi">
+                <div>
+                    <div class="label">Chờ duyệt</div>
+                    <div class="value">12</div>
+                </div>
+                <div class="tag"><i class="fa-regular fa-clock"></i> Hôm nay</div>
+            </div>
+            <div class="kpi">
+                <div>
+                    <div class="label">Đang xử lý</div>
+                    <div class="value">8</div>
+                </div>
+                <div class="tag"><i class="fa-solid fa-spinner"></i> SLA</div>
+            </div>
+            <div class="kpi">
+                <div>
+                    <div class="label">Đợt đổi tiền Tết</div>
+                    <div class="value">Đang mở</div>
+                </div>
+                <div class="tag"><i class="fa-regular fa-calendar"></i> 20/12–20/01</div>
+            </div>
+            <div class="kpi">
+                <div>
+                    <div class="label">Cảnh báo tồn thấp</div>
+                    <div class="value">2</div>
+                </div>
+                <div class="tag"><i class="fa-solid fa-triangle-exclamation"></i> Kho</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>Phím tắt quản trị</h2>
+                        <div class="muted">Đi tới các khu vực quản trị chính</div>
+                    </div>
+                </div>
+
+                <div class="shortcuts">
+                    <a class="tile" href="admin-approvals.html">
+                        <div class="ico blue"><i class="fa-solid fa-user-check"></i></div>
+                        <div><b>Duyệt yêu cầu</b><span>Duyệt / từ chối / phân công xử lý</span></div>
+                    </a>
+
+                    <a class="tile" href="admin-tet-campaign.html">
+                        <div class="ico amber"><i class="fa-solid fa-coins"></i></div>
+                        <div><b>Đợt đổi tiền Tết</b><span>Cấu hình quota, mệnh giá, slot</span></div>
+                    </a>
+
+                    <a class="tile" href="admin-inventory.html">
+                        <div class="ico mint"><i class="fa-solid fa-boxes-stacked"></i></div>
+                        <div><b>Kho & tồn</b><span>Nhập/xuất, tồn kho, lịch sử</span></div>
+                    </a>
+
+                    <a class="tile" href="account.html">
+                        <div class="ico rose"><i class="fa-regular fa-user"></i></div>
+                        <div><b>Tài khoản & phân quyền</b><span>Thông tin người dùng, role</span></div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="head">
+                    <div>
+                        <h2>Thông báo nhanh</h2>
+                        <div class="muted">Các điểm cần chú ý khi vận hành</div>
+                    </div>
+                    <span class="tag"><i class="fa-regular fa-bell"></i> Nội bộ</span>
+                </div>
+
+                <div style="display:grid; gap:10px;">
+                    <div class="tile" style="cursor:default;">
+                        <div class="ico amber"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div><b>Túi rác phân loại sắp hết</b><span>SUP-014 còn 18 cuộn • nên nhập thêm</span></div>
+                    </div>
+                    <div class="tile" style="cursor:default;">
+                        <div class="ico blue"><i class="fa-regular fa-clock"></i></div>
+                        <div><b>Slot 22/12 10:00 gần đầy</b><span>498/500 đăng ký • cân nhắc mở slot mới</span></div>
+                    </div>
+                    <div class="tile" style="cursor:default;">
+                        <div class="ico mint"><i class="fa-regular fa-circle-check"></i></div>
+                        <div><b>Ticket SLA sắp quá hạn</b><span>2 ticket cần phản hồi trước 17:00</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="head">
+                <div>
+                    <h2>Yêu cầu mới nhất</h2>
+                    <div class="muted">Bấm mã để xem chi tiết</div>
+                </div>
+                <a class="btn primary" href="admin-approvals.html"><i class="fa-solid fa-arrow-right"></i> Xem tất cả</a>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Mã</th>
+                            <th>Dịch vụ</th>
+                            <th>Người tạo</th>
+                            <th>Chi nhánh</th>
+                            <th>Trạng thái</th>
+                            <th>Ngày tạo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a class="link" href="request-detail.html">#REQ-1023</a></td>
+                            <td>Đổi tiền Tết</td>
+                            <td>Nguyễn Việt</td>
+                            <td>Trụ sở chính</td>
+                            <td><span class="status pending"><span class="dot"></span> Chờ duyệt</span>
+                            </td>
+                            <td>16/12/2025</td>
+                        </tr>
+                        <tr>
+                            <td><a class="link" href="request-detail.html">#REQ-1018</a></td>
+                            <td>Cấp túi rác / đồ dùng</td>
+                            <td>Trần Minh</td>
+                            <td>Trụ sở chính</td>
+                            <td><span class="status processing"><span class="dot"></span> Đang xử lý</span>
+                            </td>
+                            <td>14/12/2025</td>
+                        </tr>
+                        <tr>
+                            <td><a class="link" href="request-detail.html">#REQ-1009</a></td>
+                            <td>Cây cảnh</td>
+                            <td>Lê Hương</td>
+                            <td>Chi nhánh A</td>
+                            <td><span class="status done"><span class="dot"></span> Hoàn tất</span>
+                            </td>
+                            <td>10/12/2025</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>

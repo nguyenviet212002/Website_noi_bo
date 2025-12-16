@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="vi">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Tài khoản • Cổng Dịch Vụ Nội Bộ</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;650;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+         :root {
+            --bg: #f6f8fb;
+            --surface: #fff;
+            --surface2: #fbfcff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e6eaf2;
+            --shadow: 0 14px 34px rgba(15, 23, 42, .08);
+            --shadow2: 0 10px 26px rgba(15, 23, 42, .06);
+            --primary: #2563eb;
+            --primary-soft: rgba(37, 99, 235, .10);
+            --mint: #10b981;
+            --amber: #f59e0b;
+            --rose: #f43f5e;
+            --radius: 18px;
+            --max: 980px;
+            --gap: 16px;
+            --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        
+        body {
+            margin: 0;
+            font-family: var(--font);
+            color: var(--text);
+            background: var(--bg);
+        }
+        
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+        
+        .wrap {
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: var(--gap);
+        }
+        
+        .top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--surface);
+            box-shadow: var(--shadow2);
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 650;
+        }
+        
+        .sub {
+            margin: 2px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, .04);
+            transition: .18s ease;
+        }
+        
+        .btn:hover {
+            transform: translateY(-1px);
+            background: var(--surface2);
+        }
+        
+        .btn.primary {
+            border-color: rgba(37, 99, 235, .20);
+            background: linear-gradient(135deg, rgba(37, 99, 235, .12), rgba(16, 185, 129, .08));
+        }
+        
+        .btn.primary i {
+            color: var(--primary);
+        }
+        
+        .btn.danger {
+            border-color: rgba(244, 63, 94, .22);
+            background: rgba(244, 63, 94, .08);
+        }
+        
+        .btn.danger i {
+            color: var(--rose);
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap);
+        }
+        
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow2);
+            padding: 16px;
+        }
+        
+        .card h2 {
+            margin: 0 0 10px;
+            font-size: 14px;
+            font-weight: 650;
+        }
+        
+        .muted {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.65;
+        }
+        
+        .profile {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            background: var(--surface2);
+        }
+        
+        .avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 18px;
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            color: #334155;
+            border: 1px solid rgba(15, 23, 42, .10);
+            background: #fff;
+        }
+        
+        .pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 10px;
+            border-radius: 999px;
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            color: #334155;
+            font-size: 12px;
+            white-space: nowrap;
+        }
+        
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+            margin-top: 12px;
+        }
+        
+        label {
+            font-size: 12px;
+            color: var(--muted);
+        }
+        
+        input,
+        select {
+            border: 1px solid var(--border);
+            background: var(--surface2);
+            padding: 10px 12px;
+            border-radius: 14px;
+            outline: none;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="top">
+            <div>
+                <h1>Tài khoản</h1>
+                <p class="sub">Quản lý thông tin cá nhân và quyền truy cập</p>
+            </div>
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+                <a class="btn" href="index.html"><i class="fa-solid fa-arrow-left"></i> Về Portal</a>
+                <a class="btn primary" href="admin-dashboard.html"><i class="fa-solid fa-gauge-high"></i> Admin tổng quan</a>
+                <a class="btn danger" href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Thông tin người dùng</h2>
+            <div class="profile">
+                <div class="avatar">NV</div>
+                <div style="flex:1;">
+                    <div style="font-weight:650;">Nguyễn Việt</div>
+                    <div class="muted">nguyenviet@company.com • Phòng Vận hành</div>
+                </div>
+                <span class="pill"><i class="fa-regular fa-shield-halved"></i> Role: Admin</span>
+            </div>
+
+            <div class="grid">
+                <div class="field">
+                    <label>Họ và tên</label>
+                    <input value="Nguyễn Việt" />
+                </div>
+                <div class="field">
+                    <label>Email</label>
+                    <input value="nguyenviet@company.com" />
+                </div>
+                <div class="field">
+                    <label>Phòng ban</label>
+                    <select>
+            <option>Vận hành</option>
+            <option>Kho / OPS</option>
+            <option>Kế toán</option>
+            <option>Nhân sự</option>
+          </select>
+                </div>
+                <div class="field">
+                    <label>Chi nhánh</label>
+                    <select>
+            <option>Trụ sở chính</option>
+            <option>Chi nhánh A</option>
+            <option>Chi nhánh B</option>
+          </select>
+                </div>
+            </div>
+
+            <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                <button class="btn primary"><i class="fa-solid fa-floppy-disk"></i> Lưu thay đổi</button>
+                <button class="btn"><i class="fa-regular fa-envelope"></i> Cập nhật email</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2>Đổi mật khẩu</h2>
+                <p class="muted">Nếu dùng SSO thì phần này có thể ẩn. Demo UI.</p>
+
+                <div class="field">
+                    <label>Mật khẩu hiện tại</label>
+                    <input type="password" placeholder="••••••••" />
+                </div>
+                <div class="field">
+                    <label>Mật khẩu mới</label>
+                    <input type="password" placeholder="••••••••" />
+                </div>
+                <div class="field">
+                    <label>Nhập lại mật khẩu mới</label>
+                    <input type="password" placeholder="••••••••" />
+                </div>
+
+                <button class="btn primary" style="margin-top:10px;"><i class="fa-solid fa-key"></i> Cập nhật mật khẩu</button>
+            </div>
+
+            <div class="card">
+                <h2>Quyền truy cập</h2>
+                <p class="muted">Danh sách quyền theo vai trò (RBAC).</p>
+
+                <div style="display:grid; gap:10px; margin-top:10px;">
+                    <div class="pill"><i class="fa-solid fa-user-check"></i> Duyệt yêu cầu</div>
+                    <div class="pill"><i class="fa-solid fa-coins"></i> Quản lý đợt đổi tiền Tết</div>
+                    <div class="pill"><i class="fa-solid fa-boxes-stacked"></i> Quản lý kho & tồn</div>
+                    <div class="pill"><i class="fa-regular fa-file-lines"></i> Xem báo cáo</div>
+                </div>
+
+                <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap;">
+                    <a class="btn" href="admin-approvals.html"><i class="fa-solid fa-user-check"></i> Tới duyệt</a>
+                    <a class="btn" href="admin-tet-campaign.html"><i class="fa-solid fa-coins"></i> Tới đợt Tết</a>
+                    <a class="btn" href="admin-inventory.html"><i class="fa-solid fa-boxes-stacked"></i> Tới kho</a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
+</html>
