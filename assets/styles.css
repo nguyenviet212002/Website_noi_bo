@@ -1,0 +1,193 @@
+/* =========================
+   Design System (User/Admin)
+   ========================= */
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --muted:#64748b;
+  --text:#0f172a;
+  --border:#e6eaf2;
+  --shadow:0 16px 40px rgba(15,23,42,.08);
+  --shadow2:0 10px 26px rgba(15,23,42,.06);
+  --radius:18px;
+
+  --primary:#2563eb;
+  --primarySoft:rgba(37,99,235,.12);
+  --mint:#10b981;
+  --mintSoft:rgba(16,185,129,.12);
+  --amber:#f59e0b;
+  --amberSoft:rgba(245,158,11,.14);
+  --rose:#f43f5e;
+  --roseSoft:rgba(244,63,94,.12);
+
+  --max:1180px;
+  --gap:16px;
+  --font: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0; font-family:var(--font); background:var(--bg); color:var(--text)}
+a{color:inherit; text-decoration:none}
+button{font-family:inherit}
+img{max-width:100%; display:block}
+
+/* Layout */
+.shell{min-height:100vh; display:flex}
+.sidebar{
+  width:260px; background:rgba(255,255,255,.9);
+  border-right:1px solid var(--border);
+  position:sticky; top:0; height:100vh;
+  padding:16px 12px; backdrop-filter: blur(10px);
+}
+.brand{
+  display:flex; gap:10px; align-items:center;
+  padding:10px 10px 14px; border-bottom:1px solid var(--border);
+}
+.logo{
+  width:38px; height:38px; border-radius:14px;
+  background:linear-gradient(135deg, #60a5fa, #34d399);
+  box-shadow:0 10px 26px rgba(37,99,235,.18);
+}
+.brand b{display:block; font-size:14px}
+.brand small{color:var(--muted)}
+
+.nav{display:flex; flex-direction:column; gap:6px; padding:12px 6px}
+.nav .sec{margin:10px 8px 6px; font-size:12px; color:var(--muted)}
+.nav a{
+  display:flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:14px;
+  color:#334155; border:1px solid transparent;
+}
+.nav a:hover{background:#fff; border-color:var(--border)}
+.nav a.active{background:var(--primarySoft); border-color:rgba(37,99,235,.18); color:#0b2a6a; font-weight:650}
+.nav i{width:18px; text-align:center}
+
+.content{flex:1}
+.topbar{
+  position:sticky; top:0; z-index:50;
+  background:rgba(246,248,251,.75);
+  backdrop-filter: blur(10px);
+  border-bottom:1px solid var(--border);
+}
+.topbar .wrap{
+  max-width:var(--max); margin:0 auto; padding:14px 18px;
+  display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
+}
+.title h1{margin:0; font-size:16px; font-weight:700}
+.title p{margin:2px 0 0; color:var(--muted); font-size:13px}
+
+.main{
+  max-width:var(--max); margin:0 auto; padding:18px;
+  display:flex; flex-direction:column; gap:var(--gap);
+}
+
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; gap:10px;
+  padding:10px 12px; border-radius:14px;
+  border:1px solid var(--border);
+  background:#fff; cursor:pointer;
+  font-size:14px; font-weight:650;
+  box-shadow:0 4px 14px rgba(15,23,42,.04);
+  transition:.18s ease;
+}
+.btn:hover{transform:translateY(-1px); background:#fbfcff}
+.btn.primary{border-color:rgba(37,99,235,.22); background:linear-gradient(135deg, rgba(37,99,235,.14), rgba(16,185,129,.08))}
+.btn.primary i{color:var(--primary)}
+.btn.danger{border-color:rgba(244,63,94,.25); background:rgba(244,63,94,.08)}
+.btn.danger i{color:var(--rose)}
+.btn.ghost{background:transparent; box-shadow:none}
+.btn.small{padding:8px 10px; font-size:13px}
+
+/* Cards */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow2);
+  padding:16px;
+}
+.card h2{margin:0; font-size:14px; font-weight:750}
+.card .sub{margin:4px 0 0; color:var(--muted); font-size:13px}
+
+/* Pills + status */
+.pill{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:7px 10px; border-radius:999px;
+  border:1px solid var(--border);
+  background:#fbfcff; color:#334155;
+  font-size:12px; white-space:nowrap;
+}
+.pill .dot{width:8px; height:8px; border-radius:999px; background:#cbd5e1}
+.pill.pending .dot{background:var(--amber)}
+.pill.processing .dot{background:var(--primary)}
+.pill.done .dot{background:var(--mint)}
+.pill.rejected .dot{background:var(--rose)}
+
+/* Grids */
+.grid-2{display:grid; grid-template-columns:1.2fr .8fr; gap:var(--gap)}
+.grid-3{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+@media (max-width: 980px){ .grid-2{grid-template-columns:1fr} .grid-3{grid-template-columns:repeat(2,1fr)} }
+@media (max-width: 560px){ .grid-3{grid-template-columns:1fr} }
+
+/* Table */
+.table-wrap{overflow:auto; border:1px solid var(--border); border-radius:14px; background:#fbfcff}
+table{width:100%; border-collapse:collapse; min-width:860px; background:#fff}
+th,td{padding:12px; border-bottom:1px solid var(--border); font-size:13px; text-align:left; vertical-align:middle}
+th{background:#fbfcff; color:#334155; font-weight:800}
+
+/* Form */
+.form{display:grid; gap:12px}
+.row{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+@media (max-width: 740px){ .row{grid-template-columns:1fr} }
+label{font-size:12px; color:var(--muted)}
+input, select, textarea{
+  width:100%;
+  border:1px solid var(--border);
+  background:#fbfcff;
+  padding:10px 12px;
+  border-radius:14px;
+  outline:none; font-size:14px;
+}
+textarea{min-height:110px; resize:vertical}
+
+/* Modal */
+.backdrop{
+  position:fixed; inset:0; background:rgba(15,23,42,.45);
+  display:none; align-items:center; justify-content:center;
+  padding:18px; z-index:100;
+}
+.modal{
+  width:min(760px, 100%); background:#fff; border:1px solid var(--border);
+  border-radius:22px; box-shadow:var(--shadow); overflow:hidden;
+}
+.modal .hd{
+  padding:14px 16px; border-bottom:1px solid var(--border);
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.modal .bd{padding:16px}
+.modal .ft{
+  padding:14px 16px; border-top:1px solid var(--border);
+  display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;
+}
+
+/* Mobile sidebar drawer */
+.burger{display:none}
+@media (max-width: 980px){
+  .sidebar{position:fixed; left:-280px; transition:.22s ease; z-index:120}
+  .sidebar.open{left:0}
+  .burger{display:inline-flex}
+  .shell{display:block}
+  .content{padding-left:0}
+  .topbar .wrap{padding:12px 14px}
+}
+
+/* Different feel: USER vs ADMIN */
+body[data-role="user"] .topbar{background:rgba(246,248,251,.88)}
+body[data-role="user"] .card{box-shadow:0 14px 34px rgba(15,23,42,.06)}
+body[data-role="user"] .title h1{font-size:17px}
+
+body[data-role="admin"] .title h1{font-size:15px}
+body[data-role="admin"] .card{border-radius:16px}
+body[data-role="admin"] table{min-width:980px} /* admin thường nhiều cột */

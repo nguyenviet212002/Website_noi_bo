@@ -1,1136 +1,2008 @@
 <!doctype html>
 <html lang="vi">
-
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Cổng Dịch Vụ Nội Bộ</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cổng Dịch Vụ Nội Bộ</title>
 
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
-    <style>
-         :root {
-            /* Light theme (enterprise) */
-            --bg: #f6f8fb;
-            --surface: #ffffff;
-            --surface2: #fbfcff;
-            --text: #0f172a;
-            --muted: #64748b;
-            --border: #e6eaf2;
-            --shadow: 0 14px 34px rgba(15, 23, 42, .08);
-            --shadow2: 0 10px 26px rgba(15, 23, 42, .06);
-            /* Accent colors (soft) */
-            --primary: #2563eb;
-            /* blue */
-            --primary-soft: rgba(37, 99, 235, .10);
-            --mint: #10b981;
-            --mint-soft: rgba(16, 185, 129, .10);
-            --amber: #f59e0b;
-            --amber-soft: rgba(245, 158, 11, .12);
-            --rose: #f43f5e;
-            --rose-soft: rgba(244, 63, 94, .10);
-            --radius: 18px;
-            --radius2: 14px;
-            --max: 1180px;
-            --gap: 16px;
-            --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        }
-        
-        * {
-            box-sizing: border-box;
-        }
-        
-        html,
-        body {
-            height: 100%;
-        }
-        
-        body {
-            margin: 0;
-            font-family: var(--font);
-            color: var(--text);
-            background: radial-gradient(900px 420px at 10% 0%, rgba(37, 99, 235, .10), transparent 55%), radial-gradient(700px 380px at 90% 10%, rgba(16, 185, 129, .10), transparent 55%), radial-gradient(760px 420px at 20% 95%, rgba(245, 158, 11, .10), transparent 55%), var(--bg);
-        }
-        
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-        
-        button,
-        input,
-        select,
-        textarea {
-            font-family: inherit;
-        }
-        
-        .shell {
-            display: grid;
-            grid-template-columns: 280px 1fr;
-            min-height: 100vh;
-        }
-        /* Sidebar */
-        
-        .sidebar {
-            position: sticky;
-            top: 0;
-            height: 100vh;
-            padding: 18px;
-            border-right: 1px solid var(--border);
-            background: rgba(255, 255, 255, .75);
-            backdrop-filter: blur(10px);
-        }
-        
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 10px 14px;
-            border-bottom: 1px solid var(--border);
-            margin-bottom: 14px;
-        }
-        
-        .brand .logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(37, 99, 235, .95), rgba(16, 185, 129, .85));
-            box-shadow: 0 12px 22px rgba(37, 99, 235, .16);
-        }
-        
-        .brand .title strong {
-            display: block;
-            font-size: 14px;
-        }
-        
-        .brand .title span {
-            display: block;
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 1px;
-        }
-        
-        .nav {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 6px;
-        }
-        
-        .nav a {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 11px 12px;
-            border-radius: 12px;
-            color: var(--muted);
-            border: 1px solid transparent;
-            transition: .18s ease;
-        }
-        
-        .nav a i {
-            width: 18px;
-            text-align: center;
-        }
-        
-        .nav a.active {
-            color: var(--text);
-            background: var(--primary-soft);
-            border-color: rgba(37, 99, 235, .18);
-        }
-        
-        .nav a:hover {
-            color: var(--text);
-            background: rgba(15, 23, 42, .04);
-            border-color: rgba(15, 23, 42, .08);
-        }
-        
-        .hint {
-            margin-top: 14px;
-            padding: 14px;
-            border-radius: var(--radius2);
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.5;
-            box-shadow: var(--shadow2);
-        }
-        /* Main */
-        
-        .main {
-            padding: 18px 18px 34px;
-        }
-        
-        .container {
-            max-width: var(--max);
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: var(--gap);
-        }
-        /* Topbar */
-        
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 14px 16px;
-            border-radius: var(--radius);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow2);
-        }
-        
-        .search {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px 12px;
-            border-radius: 14px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            max-width: 560px;
-        }
-        
-        .search i {
-            color: var(--muted);
-        }
-        
-        .search input {
-            width: 100%;
-            border: 0;
-            outline: 0;
-            background: transparent;
-            color: var(--text);
-            font-size: 14px;
-        }
-        
-        .top-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .chip {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 9px 12px;
-            border-radius: 999px;
-            background: var(--surface2);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            font-size: 13px;
-            white-space: nowrap;
-        }
-        
-        .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 14px;
-            background: rgba(15, 23, 42, .05);
-            display: grid;
-            place-items: center;
-            color: rgba(15, 23, 42, .72);
-            border: 1px solid rgba(15, 23, 42, .10);
-            font-weight: 700;
-            letter-spacing: .2px;
-        }
-        
-        .btn {
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text);
-            padding: 10px 12px;
-            border-radius: 14px;
-            cursor: pointer;
-            transition: .18s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            white-space: nowrap;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, .04);
-        }
-        
-        .btn:hover {
-            transform: translateY(-1px);
-            background: var(--surface2);
-            border-color: rgba(15, 23, 42, .12);
-        }
-        
-        .btn.primary {
-            background: linear-gradient(135deg, rgba(37, 99, 235, .10), rgba(16, 185, 129, .08));
-            border-color: rgba(37, 99, 235, .18);
-        }
-        
-        .btn.primary i {
-            color: var(--primary);
-        }
-        
-        .btn.primary:hover {
-            border-color: rgba(37, 99, 235, .28);
-            background: linear-gradient(135deg, rgba(37, 99, 235, .14), rgba(16, 185, 129, .10));
-        }
-        /* Hero */
-        
-        .hero {
-            display: grid;
-            grid-template-columns: 1.2fr .8fr;
-            gap: var(--gap);
-        }
-        
-        .hero-card {
-            padding: 18px;
-            border-radius: var(--radius);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow);
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-card:before {
-            content: "";
-            position: absolute;
-            inset: -80px -90px auto auto;
-            width: 260px;
-            height: 260px;
-            background: radial-gradient(circle at 30% 30%, rgba(37, 99, 235, .18), transparent 60%);
-            transform: rotate(18deg);
-        }
-        
-        .hero h1 {
-            margin: 0 0 8px;
-            font-size: 18px;
-            letter-spacing: .2px;
-        }
-        
-        .hero p {
-            margin: 0 0 14px;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
-            max-width: 62ch;
-        }
-        
-        .quick {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .kpis {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-        }
-        
-        .kpi {
-            padding: 14px;
-            border-radius: 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .kpi .label {
-            color: var(--muted);
-            font-size: 13px;
-        }
-        
-        .kpi .value {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: .2px;
-        }
-        
-        .kpi .tag {
-            font-size: 12px;
-            padding: 7px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--muted);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        /* Sections */
-        
-        .section {
-            padding: 16px;
-            border-radius: var(--radius);
-            background: var(--surface);
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow2);
-        }
-        
-        .section-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            margin-bottom: 12px;
-        }
-        
-        .section-head h2 {
-            margin: 0;
-            font-size: 14px;
-        }
-        
-        .muted {
-            color: var(--muted);
-            font-size: 13px;
-        }
-        /* Services grid */
-        
-        .services {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-        }
-        
-        .service {
-            padding: 14px;
-            border-radius: 16px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            transition: .18s ease;
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            min-height: 136px;
-            box-shadow: 0 6px 18px rgba(15, 23, 42, .05);
-        }
-        
-        .service:hover {
-            transform: translateY(-2px);
-            border-color: rgba(37, 99, 235, .18);
-            box-shadow: 0 10px 26px rgba(15, 23, 42, .08);
-        }
-        
-        .svc-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        
-        .svc-ico {
-            width: 42px;
-            height: 42px;
-            border-radius: 14px;
-            display: grid;
-            place-items: center;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: rgba(15, 23, 42, .75);
-        }
-        
-        .svc-ico.blue {
-            background: var(--primary-soft);
-            border-color: rgba(37, 99, 235, .16);
-            color: var(--primary);
-        }
-        
-        .svc-ico.mint {
-            background: var(--mint-soft);
-            border-color: rgba(16, 185, 129, .16);
-            color: var(--mint);
-        }
-        
-        .svc-ico.amber {
-            background: var(--amber-soft);
-            border-color: rgba(245, 158, 11, .18);
-            color: var(--amber);
-        }
-        
-        .svc-ico.rose {
-            background: var(--rose-soft);
-            border-color: rgba(244, 63, 94, .18);
-            color: var(--rose);
-        }
-        
-        .service h3 {
-            margin: 0;
-            font-size: 14px;
-            letter-spacing: .15px;
-        }
-        
-        .service p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.5;
-        }
-        
-        .svc-meta {
-            margin-top: auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            color: var(--muted);
-            font-size: 12px;
-        }
-        
-        .pill {
-            padding: 7px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--muted);
-            font-size: 12px;
-            white-space: nowrap;
-        }
-        /* Table */
-        
-        .table-wrap {
-            overflow: auto;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            background: var(--surface2);
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 760px;
-            background: var(--surface);
-        }
-        
-        th,
-        td {
-            text-align: left;
-            padding: 12px 12px;
-            border-bottom: 1px solid var(--border);
-            font-size: 13px;
-        }
-        
-        th {
-            color: #334155;
-            font-weight: 700;
-            background: var(--surface2);
-        }
-        
-        tr:hover td {
-            background: rgba(15, 23, 42, .02);
-        }
-        
-        .status {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            border-radius: 999px;
-            border: 1px solid var(--border);
-            font-size: 12px;
-            color: #334155;
-            background: var(--surface2);
-            white-space: nowrap;
-        }
-        
-        .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: #cbd5e1;
-        }
-        
-        .pending .dot {
-            background: var(--amber);
-        }
-        
-        .processing .dot {
-            background: var(--primary);
-        }
-        
-        .done .dot {
-            background: var(--mint);
-        }
-        
-        .rejected .dot {
-            background: var(--rose);
-        }
-        /* Modal */
-        
-        .modal {
-            position: fixed;
-            inset: 0;
-            display: none;
-            place-items: center;
-            padding: 18px;
-            background: rgba(2, 6, 23, .45);
-            backdrop-filter: blur(6px);
-            z-index: 50;
-        }
-        
-        .modal.show {
-            display: grid;
-        }
-        
-        .modal-card {
-            width: min(900px, 100%);
-            border-radius: 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            box-shadow: 0 26px 70px rgba(2, 6, 23, .20);
-            overflow: hidden;
-        }
-        
-        .modal-head {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
-            background: var(--surface2);
-        }
-        
-        .modal-head strong {
-            font-size: 14px;
-        }
-        
-        .icon-btn {
-            width: 38px;
-            height: 38px;
-            border-radius: 14px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            cursor: pointer;
-            transition: .18s ease;
-            color: #334155;
-        }
-        
-        .icon-btn:hover {
-            transform: translateY(-1px);
-            background: var(--surface2);
-        }
-        
-        .modal-body {
-            padding: 16px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        
-        .field label {
-            font-size: 12px;
-            color: var(--muted);
-        }
-        
-        .field input,
-        .field select,
-        .field textarea {
-            border: 1px solid var(--border);
-            background: var(--surface2);
-            color: var(--text);
-            padding: 10px 12px;
-            border-radius: 14px;
-            outline: none;
-            font-size: 14px;
-        }
-        
-        .field textarea {
-            min-height: 96px;
-            resize: vertical;
-        }
-        
-        .span-2 {
-            grid-column: span 2;
-        }
-        
-        .modal-foot {
-            padding: 14px 16px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            border-top: 1px solid var(--border);
-            background: var(--surface2);
-        }
-        /* Mobile bar */
-        
-        .mobilebar {
-            display: none;
-            position: sticky;
-            top: 0;
-            z-index: 20;
-            padding: 12px 12px 0;
-        }
-        /* Responsive */
-        
-        @media (max-width: 980px) {
-            .shell {
-                grid-template-columns: 1fr;
-            }
-            .sidebar {
-                display: none;
-            }
-            .mobilebar {
-                display: block;
-            }
-            .hero {
-                grid-template-columns: 1fr;
-            }
-            .services {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .search {
-                max-width: unset;
-            }
-        }
-        
-        @media (max-width: 560px) {
-            .services {
-                grid-template-columns: 1fr;
-            }
-            .chip span {
-                display: none;
-            }
-            .btn .hide-sm {
-                display: none;
-            }
-            .modal-body {
-                grid-template-columns: 1fr;
-            }
-            .span-2 {
-                grid-column: span 1;
-            }
-        }
-    </style>
+  <style>
+    :root{
+      --bg:#f6f8fc;
+      --card:#ffffff;
+      --line:#e7ecf5;
+      --text:#0f172a;
+      --muted:#64748b;
+
+      --primary:#2563eb;
+      --primary-weak:#e7f0ff;
+
+      --ok:#16a34a;
+      --warn:#f59e0b;
+      --bad:#ef4444;
+
+      --shadow:0 10px 30px rgba(15,23,42,.06);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      background: radial-gradient(1000px 600px at 20% 90%, rgba(37,99,235,.08), transparent 55%),
+                  radial-gradient(900px 600px at 90% 10%, rgba(34,197,94,.08), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+    }
+    a{color:inherit; text-decoration:none}
+    button, input, select, textarea{font:inherit}
+    .wrap{
+      display:grid;
+      grid-template-columns: 280px 1fr;
+      min-height:100vh;
+    }
+
+    /* Sidebar */
+    .side{
+      position:sticky; top:0;
+      height:100vh;
+      padding:18px 14px;
+      background: rgba(255,255,255,.78);
+      border-right:1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .brand{
+      display:flex; align-items:center; gap:12px;
+      padding:12px 10px;
+    }
+    .logo{
+      width:44px; height:44px; border-radius:14px;
+      background: linear-gradient(135deg, #22c55e, #2563eb);
+      box-shadow: var(--shadow);
+    }
+    .brand h1{
+      margin:0; font-size:16px; letter-spacing:.2px;
+    }
+    .brand .sub{font-size:12px;color:var(--muted); margin-top:2px}
+
+    .navBlock{margin-top:10px}
+    .navTitle{
+      padding:10px 10px;
+      font-size:12px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.08em;
+    }
+    .nav a{
+      display:flex; align-items:center; gap:12px;
+      padding:10px 12px;
+      margin:4px 6px;
+      border-radius:14px;
+      color:#1f2a44;
+      border:1px solid transparent;
+      transition:.15s;
+    }
+    .nav a i{width:18px; text-align:center; color:#475569}
+    .nav a:hover{
+      background:#fff;
+      border-color: var(--line);
+      box-shadow: 0 6px 18px rgba(15,23,42,.06);
+    }
+    .nav a.active{
+      background: var(--primary-weak);
+      border-color: rgba(37,99,235,.25);
+    }
+    .sideFooter{
+      position:absolute;
+      left:14px; right:14px; bottom:14px;
+      padding:12px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:#fff;
+      box-shadow: var(--shadow);
+      font-size:12px;
+      color:var(--muted);
+    }
+    .sideFooter b{color:var(--text)}
+    .sideFooter .mini{
+      display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;
+    }
+
+    /* Main */
+    .main{
+      padding:22px 22px 70px;
+    }
+    .topbar{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+      margin-bottom:14px;
+    }
+    .crumb{
+      display:flex; gap:10px; align-items:center; flex-wrap:wrap;
+    }
+    .crumb .pill{padding:8px 12px}
+    .hTitle{
+      font-size:18px; font-weight:900; margin:0;
+      letter-spacing:.2px;
+    }
+    .hSub{
+      margin-top:4px; font-size:13px; color:var(--muted);
+    }
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .btn{
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      display:inline-flex; gap:10px; align-items:center; justify-content:center;
+      box-shadow: 0 8px 18px rgba(15,23,42,.05);
+      transition:.15s;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-1px)}
+    .btn:active{transform: translateY(0)}
+    .btn.primary{
+      background: linear-gradient(180deg, rgba(37,99,235,.14), rgba(37,99,235,.06));
+      border-color: rgba(37,99,235,.25);
+      color:#0b2a66;
+    }
+    .btn.danger{
+      background: linear-gradient(180deg, rgba(239,68,68,.12), rgba(239,68,68,.06));
+      border-color: rgba(239,68,68,.25);
+      color:#7f1d1d;
+    }
+    .btn.small{padding:8px 10px; border-radius:12px; font-size:13px}
+    .btn.icon{width:44px; height:44px; padding:0}
+
+    .grid{
+      display:grid;
+      grid-template-columns: 2fr 1fr;
+      gap:14px;
+    }
+    .card{
+      background: rgba(255,255,255,.92);
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      padding:16px;
+      box-shadow: var(--shadow);
+    }
+    .card h2{
+      margin:0; font-size:14px; font-weight:900;
+    }
+    .sub{
+      margin-top:6px; font-size:13px; color:var(--muted)
+    }
+
+    .row{display:flex; gap:12px; flex-wrap:wrap}
+    .row > *{flex:1}
+    .row .fix{flex:0 0 auto}
+
+    .field label{
+      display:block; font-size:12px; color:var(--muted); margin-bottom:6px
+    }
+    .input, select, textarea{
+      width:100%;
+      padding:10px 12px;
+      border-radius:14px;
+      border:1px solid var(--line);
+      background:#fff;
+      outline:none;
+    }
+    textarea{min-height:90px; resize:vertical}
+    .hint{font-size:12px;color:var(--muted); margin-top:6px}
+
+    .tableWrap{
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background:#fff;
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      min-width: 860px;
+    }
+    th,td{
+      padding:12px 12px;
+      border-bottom:1px solid var(--line);
+      text-align:left;
+      vertical-align:top;
+      font-size:14px;
+    }
+    th{
+      position:sticky; top:0;
+      background:#fbfcff;
+      z-index:1;
+      font-size:12px;
+      color:var(--muted);
+      text-transform:uppercase;
+      letter-spacing:.06em;
+    }
+    tr:hover td{background:#fafcff}
+    .link{
+      color:var(--primary);
+      font-weight:900;
+    }
+
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:#fff;
+      font-size:13px;
+      color:#1f2a44;
+    }
+    .pill .dot{
+      width:8px;height:8px;border-radius:50%;
+      background:#94a3b8;
+    }
+    .pill.pending .dot{background: var(--warn)}
+    .pill.processing .dot{background: var(--primary)}
+    .pill.done .dot{background: var(--ok)}
+    .pill.rejected .dot{background: var(--bad)}
+
+    /* Service Cards */
+    .svcGrid{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:12px;
+      margin-top:12px;
+    }
+    .svc{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:#fff;
+      padding:14px;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      cursor:pointer;
+      transition:.15s;
+    }
+    .svc:hover{transform: translateY(-1px); box-shadow: var(--shadow)}
+    .svcIcon{
+      width:42px;height:42px;border-radius:14px;
+      display:flex;align-items:center;justify-content:center;
+      background: rgba(37,99,235,.10);
+      border:1px solid rgba(37,99,235,.18);
+      color:#0b2a66;
+      flex:0 0 auto;
+    }
+    .svc h3{margin:0;font-size:14px;font-weight:900}
+    .svc p{margin:6px 0 0;color:var(--muted);font-size:13px; line-height:1.35}
+    .svc .meta{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
+
+    /* Modal */
+    .overlay{
+      position:fixed; inset:0;
+      background: rgba(15,23,42,.55);
+      display:none; align-items:center; justify-content:center;
+      padding:16px;
+      z-index:50;
+    }
+    .overlay.show{display:flex}
+    .modal{
+      width:min(880px, 100%);
+      background:#fff;
+      border-radius:22px;
+      border:1px solid var(--line);
+      box-shadow: 0 30px 80px rgba(15,23,42,.35);
+      overflow:hidden;
+    }
+    .modalHead{
+      display:flex; align-items:center; justify-content:space-between;
+      padding:14px 16px;
+      border-bottom:1px solid var(--line);
+      background: #fbfcff;
+    }
+    .modalHead b{font-size:14px}
+    .modalBody{padding:16px}
+    .modalFoot{
+      padding:14px 16px;
+      border-top:1px solid var(--line);
+      display:flex; justify-content:flex-end; gap:10px; flex-wrap:wrap;
+      background:#fbfcff;
+    }
+
+    /* Mobile */
+    .mobileToggle{display:none}
+    @media (max-width: 980px){
+      .wrap{grid-template-columns: 1fr}
+      .side{
+        position:fixed; left:0; top:0;
+        width:280px;
+        transform: translateX(-110%);
+        transition:.2s;
+        z-index:60;
+      }
+      .side.show{transform: translateX(0)}
+      .main{padding:16px 14px 80px}
+      .grid{grid-template-columns:1fr}
+      .svcGrid{grid-template-columns:1fr}
+      table{min-width: 760px}
+      .mobileToggle{display:inline-flex}
+    }
+  </style>
 </head>
 
 <body>
-    <div class="shell">
-        <!-- Sidebar desktop -->
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="logo"></div>
-                <div class="title">
-                    <strong>Cổng Dịch Vụ Nội Bộ</strong>
-                    <span>Dành cho nhân viên • Doanh nghiệp</span>
-                </div>
-            </div>
+<div class="wrap">
 
-            <nav class="nav" id="nav">
-                <a class="active" href="index.html#tong-quan"><i class="fa-solid fa-grid-2"></i> Tổng quan</a>
-                <a href="index.html#dich-vu"><i class="fa-regular fa-compass"></i> Danh mục dịch vụ</a>
-                <a href="index.html#yeu-cau"><i class="fa-regular fa-rectangle-list"></i> Yêu cầu của tôi</a>
-                <a href="index.html#huong-dan"><i class="fa-regular fa-circle-question"></i> Hướng dẫn</a>
-
-                <div style="margin:10px 10px 6px; color:#64748b; font-size:12px;">Khu vực Admin</div>
-                <a href="admin-dashboard.html"><i class="fa-solid fa-gauge-high"></i> Admin tổng quan</a>
-                <a href="admin-approvals.html"><i class="fa-solid fa-user-check"></i> Duyệt yêu cầu</a>
-                <a href="admin-tet-campaign.html"><i class="fa-solid fa-coins"></i> Đợt đổi tiền Tết</a>
-                <a href="admin-inventory.html"><i class="fa-solid fa-boxes-stacked"></i> Kho & tồn</a>
-
-                <div style="margin:10px 10px 6px; color:#64748b; font-size:12px;">Tài khoản</div>
-                <a href="account.html"><i class="fa-regular fa-user"></i> Tài khoản</a>
-                <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
-            </nav>
-
-
-            <div class="hint">
-                <strong style="color:#0f172a;">Gợi ý vận hành</strong><br/> Nhân viên tạo yêu cầu → (duyệt nếu cần) → Kho/OPS xử lý → cập nhật trạng thái + lưu lịch sử.
-            </div>
-        </aside>
-
-        <!-- Main -->
-        <main class="main">
-            <!-- Mobile topbar -->
-            <div class="mobilebar">
-                <div class="topbar">
-                    <button class="btn" id="openMenu"><i class="fa-solid fa-bars"></i> <span class="hide-sm">Menu</span></button>
-                    <div class="chip"><i class="fa-regular fa-building"></i> <span>Trụ sở chính</span></div>
-                    <div class="avatar" title="Tài khoản">NV</div>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="topbar">
-                    <div class="search">
-                        <i class="fa-solid fa-magnifying-glass"></i>
-                        <input placeholder="Tìm dịch vụ, chính sách, mã yêu cầu…" />
-                    </div>
-                    <div class="top-actions">
-                        <div class="chip"><i class="fa-regular fa-building"></i> <span>Trụ sở chính</span></div>
-                        <button class="btn primary" id="openNewRequest">
-              <i class="fa-solid fa-plus"></i> Tạo yêu cầu
-            </button>
-                        <div class="avatar" title="Nguyễn Việt">NV</div>
-                    </div>
-                </div>
-
-                <!-- Hero -->
-                <section class="hero" id="tong-quan">
-                    <div class="hero-card">
-                        <h1>Cổng dịch vụ nội bộ — đơn giản, tinh tế, dễ dùng</h1>
-                        <p>
-                            Nơi nhân viên đăng ký dịch vụ: <b>đổi tiền Tết</b>, <b>cấp túi rác/đồ dùng</b>,
-                            <b>cây cảnh</b>, hoặc <b>ticket hỗ trợ</b>. Giao diện sáng, rõ ràng, chuẩn môi trường văn phòng.
-                        </p>
-
-                        <div class="quick">
-                            <button class="btn primary" data-service="Đổi tiền Tết">
-                <i class="fa-solid fa-money-check-dollar"></i> Đăng ký đổi tiền Tết
-              </button>
-                            <button class="btn" data-service="Cấp túi rác">
-                <i class="fa-solid fa-recycle"></i> Yêu cầu túi rác
-              </button>
-                            <button class="btn" data-service="Cây cảnh">
-                <i class="fa-solid fa-seedling"></i> Đăng ký cây cảnh
-              </button>
-                            <button class="btn" data-service="Hỗ trợ giao dịch">
-                <i class="fa-regular fa-life-ring"></i> Tạo ticket hỗ trợ
-              </button>
-                        </div>
-                    </div>
-
-                    <div class="kpis">
-                        <div class="kpi">
-                            <div>
-                                <div class="label">Yêu cầu đang mở</div>
-                                <div class="value">03</div>
-                            </div>
-                            <div class="tag"><i class="fa-regular fa-clock"></i> Chờ xử lý</div>
-                        </div>
-                        <div class="kpi">
-                            <div>
-                                <div class="label">Định mức đồ dùng tháng</div>
-                                <div class="value">8 / 12</div>
-                            </div>
-                            <div class="tag"><i class="fa-solid fa-box-archive"></i> Còn lại</div>
-                        </div>
-                        <div class="kpi">
-                            <div>
-                                <div class="label">Đợt đổi tiền Tết</div>
-                                <div class="value">20/12–20/01</div>
-                            </div>
-                            <div class="tag"><i class="fa-regular fa-calendar"></i> Đang mở</div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- Service Catalog -->
-                <section class="section" id="dich-vu">
-                    <div class="section-head">
-                        <div>
-                            <h2>Danh mục dịch vụ</h2>
-                            <div class="muted">Chọn dịch vụ để tạo yêu cầu (form sẽ mở ngay)</div>
-                        </div>
-                        <div style="display:flex; gap:10px; flex-wrap: wrap;">
-                            <span class="pill"><i class="fa-regular fa-shield-halved"></i> Lưu lịch sử (Audit)</span>
-                            <span class="pill"><i class="fa-regular fa-user"></i> Phân quyền</span>
-                        </div>
-                    </div>
-
-                    <div class="services">
-                        <div class="service" data-service="Đổi tiền Tết">
-                            <div class="svc-top">
-                                <div class="svc-ico amber"><i class="fa-solid fa-money-bill-wave"></i></div>
-                                <span class="pill"><i class="fa-regular fa-calendar"></i> Theo khung giờ</span>
-                            </div>
-                            <h3>Đổi tiền Tết</h3>
-                            <p>Đăng ký đổi tiền mới/tiền lẻ theo đợt, quota và lịch nhận tại văn phòng.</p>
-                            <div class="svc-meta">
-                                <span><i class="fa-regular fa-circle-check"></i> Tự kiểm quota</span>
-                                <span>2–5 phút</span>
-                            </div>
-                        </div>
-
-                        <div class="service" data-service="Cấp túi rác">
-                            <div class="svc-top">
-                                <div class="svc-ico mint"><i class="fa-solid fa-recycle"></i></div>
-                                <span class="pill"><i class="fa-solid fa-boxes-stacked"></i> Có tồn kho</span>
-                            </div>
-                            <h3>Cấp túi rác / đồ dùng</h3>
-                            <p>Cấp theo định mức phòng ban hoặc yêu cầu bổ sung (có phê duyệt khi vượt mức).</p>
-                            <div class="svc-meta">
-                                <span><i class="fa-regular fa-circle-check"></i> Theo định mức</span>
-                                <span>Trong ngày</span>
-                            </div>
-                        </div>
-
-                        <div class="service" data-service="Cây cảnh">
-                            <div class="svc-top">
-                                <div class="svc-ico blue"><i class="fa-solid fa-seedling"></i></div>
-                                <span class="pill"><i class="fa-regular fa-heart"></i> Chương trình</span>
-                            </div>
-                            <h3>Cây cảnh</h3>
-                            <p>Đăng ký nhận cây theo chương trình nội bộ, check-in khi nhận để tránh trùng.</p>
-                            <div class="svc-meta">
-                                <span><i class="fa-regular fa-circle-check"></i> 1 người/đợt</span>
-                                <span>1–2 ngày</span>
-                            </div>
-                        </div>
-
-                        <div class="service" data-service="Hỗ trợ giao dịch">
-                            <div class="svc-top">
-                                <div class="svc-ico rose"><i class="fa-regular fa-life-ring"></i></div>
-                                <span class="pill"><i class="fa-solid fa-ticket"></i> Ticket</span>
-                            </div>
-                            <h3>Hỗ trợ giao dịch</h3>
-                            <p>Tạo yêu cầu hỗ trợ/tra soát/hoàn phí nội bộ, có tham chiếu & đính kèm chứng từ.</p>
-                            <div class="svc-meta">
-                                <span><i class="fa-regular fa-circle-check"></i> Có SLA</span>
-                                <span>4–24 giờ</span>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- My Requests -->
-                <section class="section" id="yeu-cau">
-                    <div class="section-head">
-                        <div>
-                            <h2>Yêu cầu của tôi</h2>
-                            <div class="muted">Theo dõi tiến độ xử lý, lịch nhận và ghi chú</div>
-                        </div>
-                        <div style="display:flex; gap:10px;">
-                            <button class="btn" id="refreshBtn"><i class="fa-solid fa-rotate"></i> Làm mới</button>
-                            <button class="btn primary" id="openNewRequest2"><i class="fa-solid fa-plus"></i> Tạo mới</button>
-                        </div>
-                    </div>
-
-                    <div class="table-wrap">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Mã</th>
-                                    <th>Dịch vụ</th>
-                                    <th>Ngày tạo</th>
-                                    <th>Trạng thái</th>
-                                    <th>Lịch nhận</th>
-                                    <th>Ghi chú</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>#REQ-1023</td>
-                                    <td>Đổi tiền Tết</td>
-                                    <td>16/12/2025</td>
-                                    <td><span class="status pending"><span class="dot"></span> Chờ duyệt</span>
-                                    </td>
-                                    <td>22/12 • 10:00 (Tầng 5)</td>
-                                    <td class="muted">Đang chờ quản lý duyệt</td>
-                                </tr>
-                                <tr>
-                                    <td>#REQ-1018</td>
-                                    <td>Cấp túi rác / đồ dùng</td>
-                                    <td>14/12/2025</td>
-                                    <td><span class="status processing"><span class="dot"></span> Đang xử lý</span>
-                                    </td>
-                                    <td>Hôm nay • 16:00 (Kho)</td>
-                                    <td class="muted">Đang chuẩn bị hàng</td>
-                                </tr>
-                                <tr>
-                                    <td>#REQ-1009</td>
-                                    <td>Cây cảnh</td>
-                                    <td>10/12/2025</td>
-                                    <td><span class="status done"><span class="dot"></span> Hoàn tất</span>
-                                    </td>
-                                    <td>12/12 • 15:30 (Sảnh)</td>
-                                    <td class="muted">Đã check-in nhận</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </section>
-
-                <!-- Help -->
-                <section class="section" id="huong-dan">
-                    <div class="section-head">
-                        <div>
-                            <h2>Hướng dẫn & quy định</h2>
-                            <div class="muted">Một số quy tắc để vận hành gọn và minh bạch</div>
-                        </div>
-                        <div style="display:flex; gap:10px; flex-wrap: wrap;">
-                            <span class="pill"><i class="fa-regular fa-file-lines"></i> Chính sách</span>
-                            <span class="pill"><i class="fa-regular fa-bell"></i> Thông báo</span>
-                        </div>
-                    </div>
-
-                    <div class="muted" style="line-height:1.7;">
-                        <ul style="margin:0; padding-left: 18px;">
-                            <li><b>Đổi tiền Tết:</b> đăng ký theo quota & khung giờ; cho phép đổi lịch trước 24h.</li>
-                            <li><b>Đồ dùng/túi rác:</b> cấp theo định mức; vượt định mức cần phê duyệt.</li>
-                            <li><b>Cây cảnh:</b> mỗi nhân viên 1 cây/đợt; check-in khi nhận để tránh trùng.</li>
-                            <li><b>Ticket hỗ trợ:</b> nên có mã tham chiếu + chứng từ để xử lý nhanh.</li>
-                        </ul>
-                    </div>
-                </section>
-            </div>
-        </main>
+  <!-- SIDEBAR -->
+  <aside class="side" id="sidebar">
+    <div class="brand">
+      <div class="logo"></div>
+      <div>
+        <h1>Cổng Dịch Vụ Nội Bộ</h1>
+        <div class="sub">Dành cho nhân viên • Doanh nghiệp</div>
+      </div>
     </div>
 
-    <!-- Modal: Tạo yêu cầu -->
-    <div class="modal" id="modal">
-        <div class="modal-card" role="dialog" aria-modal="true" aria-label="Tạo yêu cầu">
-            <div class="modal-head">
-                <strong><i class="fa-solid fa-plus"></i> Tạo yêu cầu mới</strong>
-                <button class="icon-btn" id="closeModal" title="Đóng"><i class="fa-solid fa-xmark"></i></button>
-            </div>
+    <div class="navBlock">
+      <div class="navTitle">Nhân viên</div>
+      <nav class="nav" id="navUser">
+        <a href="#/u/overview" data-route="/u/overview"><i class="fa-solid fa-house"></i> Tổng quan</a>
+        <a href="#/u/services" data-route="/u/services"><i class="fa-regular fa-grid-2"></i> Danh mục dịch vụ</a>
+        <a href="#/u/requests" data-route="/u/requests"><i class="fa-regular fa-rectangle-list"></i> Yêu cầu của tôi</a>
+        <a href="#/u/guide" data-route="/u/guide"><i class="fa-regular fa-circle-question"></i> Hướng dẫn</a>
+        <a href="#/u/account" data-route="/u/account"><i class="fa-regular fa-user"></i> Tài khoản</a>
+      </nav>
+    </div>
 
-            <div class="modal-body">
-                <div class="field span-2">
-                    <label>Dịch vụ</label>
-                    <select id="serviceSelect">
-            <option value="Đổi tiền Tết">Đổi tiền Tết</option>
-            <option value="Cấp túi rác">Cấp túi rác / đồ dùng</option>
-            <option value="Cây cảnh">Cây cảnh</option>
-            <option value="Hỗ trợ giao dịch">Hỗ trợ giao dịch (ticket)</option>
+    <div class="navBlock">
+      <div class="navTitle">Admin</div>
+      <nav class="nav" id="navAdmin">
+        <a href="#/a/dashboard" data-route="/a/dashboard"><i class="fa-solid fa-chart-simple"></i> Admin tổng quan</a>
+        <a href="#/a/approvals" data-route="/a/approvals"><i class="fa-solid fa-check-double"></i> Duyệt yêu cầu</a>
+        <a href="#/a/tet" data-route="/a/tet"><i class="fa-solid fa-coins"></i> Đợt đổi tiền Tết</a>
+        <a href="#/a/inventory" data-route="/a/inventory"><i class="fa-solid fa-warehouse"></i> Kho & tồn</a>
+      </nav>
+    </div>
+
+    <div class="sideFooter">
+      <div><b id="meName">Nguyễn Việt</b> • <span id="meRole">Admin</span></div>
+      <div style="margin-top:4px">Chi nhánh: <b id="meBranch">Trụ sở chính</b></div>
+      <div class="mini">
+        <button type="button" class="btn small" id="btnReset"><i class="fa-solid fa-rotate"></i> Reset demo</button>
+        <button type="button" class="btn small danger" id="btnLogout"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+    <div class="topbar">
+      <div class="crumb">
+        <button type="button" class="btn icon mobileToggle" id="btnToggle"><i class="fa-solid fa-bars"></i></button>
+        <div>
+          <p class="hTitle" id="pageTitle">Tổng quan</p>
+          <div class="hSub" id="pageSub">Nhìn nhanh trạng thái dịch vụ và các yêu cầu gần đây.</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <span class="pill"><i class="fa-regular fa-clock"></i> <span id="nowText">--:--</span></span>
+        <button type="button" class="btn primary" id="btnCreateGlobal"><i class="fa-solid fa-plus"></i> Tạo yêu cầu</button>
+      </div>
+    </div>
+
+    <!-- ROUTE CONTAINER -->
+    <div id="view"></div>
+  </main>
+</div>
+
+<!-- MODAL: CREATE REQUEST -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <div class="modalHead">
+      <b id="modalTitle">+ Tạo yêu cầu mới</b>
+      <button type="button" class="btn icon" id="btnCloseModal"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+
+    <div class="modalBody">
+      <div class="row">
+        <div class="field">
+          <label>Dịch vụ</label>
+          <select id="fService">
+            <option value="tet">Đổi tiền Tết</option>
+            <option value="supply">Cấp túi rác / đồ dùng</option>
+            <option value="plant">Cây cảnh</option>
+            <option value="transfer">Chuyển khoản nội bộ</option>
           </select>
-                </div>
-
-                <div class="field">
-                    <label>Văn phòng / Chi nhánh</label>
-                    <select>
+          <div class="hint">Chọn đúng dịch vụ để hiển thị form theo nghiệp vụ.</div>
+        </div>
+        <div class="field">
+          <label>Chi nhánh / Văn phòng</label>
+          <select id="fBranch">
             <option>Trụ sở chính</option>
             <option>Chi nhánh A</option>
             <option>Chi nhánh B</option>
           </select>
-                </div>
+        </div>
+      </div>
 
-                <div class="field">
-                    <label>Ngày nhận</label>
-                    <input type="date" />
-                </div>
+      <!-- Dynamic form -->
+      <div id="dynamicForm" style="margin-top:14px"></div>
 
-                <div class="field">
-                    <label>Khung giờ</label>
-                    <select>
+      <div style="margin-top:12px" class="field">
+        <label>Ghi chú chi tiết</label>
+        <textarea id="fNote" placeholder="VD: yêu cầu cụ thể, mã tham chiếu, loại túi, cây muốn nhận..."></textarea>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <div class="field">
+          <label>Ngày nhận</label>
+          <input id="fDate" class="input" placeholder="dd/mm/yyyy" />
+        </div>
+        <div class="field">
+          <label>Khung giờ</label>
+          <select id="fSlot">
             <option>09:00 - 10:00</option>
             <option>10:00 - 11:00</option>
             <option>14:00 - 15:00</option>
-            <option>15:00 - 16:00</option>
           </select>
-                </div>
-
-                <div class="field">
-                    <label>Số lượng / Số tiền</label>
-                    <input type="text" placeholder="VD: 10 túi / 1 cây / 2.000.000 (yêu cầu)..." />
-                </div>
-
-                <div class="field span-2">
-                    <label>Ghi chú chi tiết</label>
-                    <textarea placeholder="VD: mệnh giá cần đổi, loại túi, tầng nhận, mã tham chiếu giao dịch, đính kèm..."></textarea>
-                </div>
-            </div>
-
-            <div class="modal-foot">
-                <button class="btn" id="cancelBtn"><i class="fa-regular fa-circle-xmark"></i> Huỷ</button>
-                <button class="btn primary" id="submitBtn"><i class="fa-regular fa-paper-plane"></i> Gửi yêu cầu</button>
-            </div>
         </div>
+      </div>
+
+      <div class="hint" id="formHint" style="margin-top:10px"></div>
     </div>
 
-    <!-- Mobile menu -->
-    <div class="modal" id="menuModal">
-        <div class="modal-card" style="width:min(520px,100%);">
-            <div class="modal-head">
-                <strong><i class="fa-solid fa-bars"></i> Menu</strong>
-                <button class="icon-btn" id="closeMenu"><i class="fa-solid fa-xmark"></i></button>
+    <div class="modalFoot">
+      <button type="button" class="btn" id="btnCancel"><i class="fa-regular fa-circle-xmark"></i> Hủy</button>
+      <button type="button" class="btn primary" id="btnSubmit"><i class="fa-solid fa-paper-plane"></i> Gửi yêu cầu</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   FULL WORKING DEMO — FIXED:
+   - all buttons clickable (type="button")
+   - search/filter/refresh/export CSV OK
+   - VND format with dots (vi-VN)
+   - services list is populated
+   - routes work on 1 file (no missing page ids)
+   ============================================================ */
+
+const $ = (q, el=document)=> el.querySelector(q);
+const $$ = (q, el=document)=> [...el.querySelectorAll(q)];
+const STORAGE_KEY = "INTERNAL_PORTAL_FULL_V1";
+
+/* ---------- utils ---------- */
+const pad = n=> String(n).padStart(2,"0");
+const nowStr = ()=>{
+  const d=new Date();
+  return `${pad(d.getDate())}/${pad(d.getMonth()+1)}/${d.getFullYear()} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+const fmtVND = (n)=> {
+  const num = Number(n||0);
+  return num.toLocaleString("vi-VN") + " VND"; // dấu chấm theo vi-VN
+};
+const uid = ()=> (crypto.randomUUID ? crypto.randomUUID() : ("id"+Math.random()).replace(".",""));
+
+function downloadCSV(filename, rows){
+  if(!rows || !rows.length){ alert("Không có dữ liệu để xuất."); return; }
+  const headers = Object.keys(rows[0]);
+  const esc = (v)=>{
+    if(v===null||v===undefined) return "";
+    const s = String(v).replaceAll('"','""');
+    return `"${s}"`;
+  };
+  const csv = [
+    headers.join(","),
+    ...rows.map(r=> headers.map(h=>esc(r[h])).join(","))
+  ].join("\n");
+
+  const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename.endsWith(".csv") ? filename : `${filename}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+/* ---------- data seed ---------- */
+const SEED = {
+  me: { name:"Nguyễn Việt", role:"Admin", branch:"Trụ sở chính", email:"nguyenviet@company.com", dept:"Vận hành" },
+
+  services: [
+    {
+      key:"tet", name:"Đổi tiền Tết", icon:"fa-coins",
+      desc:"Đăng ký đổi tiền theo mệnh giá & số lượng, có min/max và chọn cách nộp tiền.",
+      sla:"2–5 phút",
+      tags:["Theo quota","Theo slot","Có mệnh giá"]
+    },
+    {
+      key:"supply", name:"Cấp túi rác / đồ dùng", icon:"fa-boxes-stacked",
+      desc:"Cấp theo định mức tháng; vượt định mức sẽ chuyển duyệt. Có tồn kho và audit nhập/xuất.",
+      sla:"Trong ngày",
+      tags:["Theo định mức","Có tồn kho","Audit"]
+    },
+    {
+      key:"plant", name:"Cây cảnh", icon:"fa-seedling",
+      desc:"Đăng ký nhận cây theo chương trình nội bộ; mỗi nhân viên giới hạn số lượng/đợt.",
+      sla:"1–2 ngày",
+      tags:["Theo chương trình","Giới hạn lượt","Check-in"]
+    },
+    {
+      key:"transfer", name:"Chuyển khoản nội bộ", icon:"fa-arrow-right-arrow-left",
+      desc:"Tạo yêu cầu chuyển khoản nội bộ: người nhận, ngân hàng, số tiền, nội dung, kênh thanh toán.",
+      sla:"4–24 giờ",
+      tags:["Có chứng từ","Có SLA","Có ref"]
+    },
+  ],
+
+  tetConfig: {
+    min: 200000,
+    max: 2000000,
+    paymentMethods: ["Tiền mặt", "Chuyển khoản nội bộ", "Tiền cũ (đạt chuẩn)"],
+    denominations: [10000, 20000, 50000],
+  },
+
+  inventory: [
+    { code:"SUP-001", name:"Túi rác đen 60×80", group:"Đồ dùng", unit:"Cuộn", stock:120, min:50, warehouse:"Kho Trụ sở" },
+    { code:"SUP-014", name:"Túi rác phân loại (xanh)", group:"Đồ dùng", unit:"Cuộn", stock:18, min:30, warehouse:"Kho Trụ sở" },
+    { code:"PL-002", name:"Cây lưỡi hổ mini", group:"Cây cảnh", unit:"Cây", stock:42, min:20, warehouse:"Kho Sảnh" },
+  ],
+
+  inventoryAudit: [
+    { time:"16/12/2025 15:40", type:"Xuất", code:"SUP-001", qty:"5 cuộn", ref:"REQ-1018", by:"Kho • OPS", note:"Xuất theo định mức" },
+    { time:"15/12/2025 10:12", type:"Nhập", code:"PL-002", qty:"20 cây", ref:"-", by:"Kho • OPS", note:"Bổ sung chương trình" },
+  ],
+
+  // status: pending/approved/processing/done/rejected/cancelled
+  requests: [
+    {
+      id:"REQ-1023", serviceKey:"tet", serviceName:"Đổi tiền Tết",
+      created:"16/12/2025", status:"pending",
+      branch:"Trụ sở chính",
+      pickup:"22/12 • 10:00", note:"Chờ quản lý duyệt",
+      createdBy:{ name:"Nguyễn Việt", email:"nguyenviet@company.com" },
+      details:{
+        denomItems:[{denom:10000, qty:100},{denom:20000, qty:50}],
+        payment:"Chuyển khoản nội bộ",
+        ref:"IB-778812",
+        total: 10000*100 + 20000*50
+      },
+      audit:[ { time:"16/12/2025 09:12", action:"Tạo yêu cầu", by:"Nguyễn Việt", note:"—" } ]
+    },
+    {
+      id:"REQ-1018", serviceKey:"supply", serviceName:"Cấp túi rác / đồ dùng",
+      created:"14/12/2025", status:"processing",
+      branch:"Trụ sở chính",
+      pickup:"Hôm nay • 16:00", note:"Đang chuẩn bị hàng",
+      createdBy:{ name:"Trần Minh", email:"tranminh@company.com" },
+      details:{ items:[{code:"SUP-014", name:"Túi rác phân loại (xanh)", qty:1, unit:"Cuộn"}], monthCount:1, monthLimit:2 },
+      audit:[
+        { time:"14/12/2025 10:00", action:"Tạo yêu cầu", by:"Trần Minh", note:"—" },
+        { time:"14/12/2025 10:05", action:"Chuyển xử lý", by:"Hệ thống", note:"Đưa sang kho" }
+      ]
+    },
+    {
+      id:"REQ-1009", serviceKey:"plant", serviceName:"Cây cảnh",
+      created:"10/12/2025", status:"done",
+      branch:"Chi nhánh A",
+      pickup:"12/12 • 15:30", note:"Đã check-in nhận",
+      createdBy:{ name:"Lê Hương", email:"lehuong@company.com" },
+      details:{ plantName:"Cây lưỡi hổ mini", qty:1, program:"Green Office", reason:"Chương trình nội bộ" },
+      audit:[
+        { time:"10/12/2025 09:00", action:"Tạo yêu cầu", by:"Lê Hương", note:"—" },
+        { time:"12/12/2025 15:40", action:"Hoàn tất", by:"Kho • OPS", note:"Đã bàn giao" }
+      ]
+    },
+  ]
+};
+
+let DB = loadState();
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return structuredClone(SEED);
+}
+function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); }
+function resetDemo(){ localStorage.removeItem(STORAGE_KEY); DB = loadState(); route(); alert("Đã reset demo."); }
+
+/* ---------- status pill ---------- */
+function statusLabel(st){
+  return ({
+    pending:"Chờ duyệt",
+    approved:"Đã duyệt",
+    processing:"Đang xử lý",
+    done:"Hoàn tất",
+    rejected:"Từ chối",
+    cancelled:"Đã hủy"
+  })[st] || "—";
+}
+function statusPill(st){
+  const cls = (st==="pending")?"pending"
+            : (st==="processing"||st==="approved")?"processing"
+            : (st==="done")?"done"
+            : (st==="rejected"||st==="cancelled")?"rejected"
+            : "";
+  return `<span class="pill ${cls}"><span class="dot"></span> ${statusLabel(st)}</span>`;
+}
+function addAudit(req, action, by, note="—"){
+  req.audit ||= [];
+  req.audit.unshift({ time: nowStr(), action, by, note });
+  saveState();
+}
+
+/* ---------- UI basics ---------- */
+function setActiveNav(path){
+  $$(".nav a").forEach(a=>{
+    a.classList.toggle("active", a.dataset.route === path);
+  });
+}
+function setHeader(title, sub){
+  $("#pageTitle").textContent = title;
+  $("#pageSub").textContent = sub;
+}
+function updateClock(){
+  const d=new Date();
+  $("#nowText").textContent = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
+
+/* ---------- ROUTES (single file) ---------- */
+function getHash(){
+  const h = location.hash || "#/u/overview";
+  // ensure format
+  const m = h.match(/^#(\/.*)$/);
+  return m ? m[1] : "/u/overview";
+}
+window.addEventListener("hashchange", route);
+
+function route(){
+  const path = getHash();
+  setActiveNav(path);
+
+  // Render views
+  if(path==="/u/overview") return renderUserOverview();
+  if(path==="/u/services") return renderUserServices();
+  if(path==="/u/requests") return renderUserRequests();
+  if(path==="/u/guide") return renderUserGuide();
+  if(path==="/u/account") return renderUserAccount();
+
+  if(path==="/a/dashboard") return renderAdminDashboard();
+  if(path==="/a/approvals") return renderAdminApprovals();
+  if(path==="/a/tet") return renderAdminTet();
+  if(path==="/a/inventory") return renderAdminInventory();
+
+  // details route
+  if(path.startsWith("/detail/")){
+    const id = decodeURIComponent(path.split("/detail/")[1] || "");
+    return renderDetail(id);
+  }
+
+  // fallback
+  location.hash = "#/u/overview";
+}
+
+/* ---------- VIEW HELPERS ---------- */
+function view(html){ $("#view").innerHTML = html; }
+
+/* =========================================================
+   USER VIEWS
+========================================================= */
+function renderUserOverview(){
+  setHeader("Tổng quan", "Nhìn nhanh trạng thái dịch vụ và các yêu cầu gần đây.");
+  const pending = DB.requests.filter(r=>r.status==="pending").length;
+  const processing = DB.requests.filter(r=>r.status==="processing").length;
+  const done = DB.requests.filter(r=>r.status==="done").length;
+
+  const latest = DB.requests.slice().sort((a,b)=> b.created.localeCompare(a.created)).slice(0,6);
+
+  view(`
+    <div class="grid">
+      <div class="card">
+        <h2>Phím tắt</h2>
+        <div class="sub">Chọn dịch vụ và tạo yêu cầu theo mẫu đúng nghiệp vụ.</div>
+
+        <div class="svcGrid" style="grid-template-columns: repeat(3,1fr); margin-top:14px">
+          ${DB.services.filter(s=>["tet","supply","plant"].includes(s.key)).map(s=>`
+            <div class="svc" data-open="${s.key}">
+              <div class="svcIcon"><i class="fa-solid ${s.icon}"></i></div>
+              <div style="flex:1">
+                <h3>${s.name}</h3>
+                <p>${s.desc}</p>
+                <div class="meta">
+                  <span class="pill"><i class="fa-regular fa-clock"></i> ${s.sla}</span>
+                </div>
+              </div>
             </div>
-            <div class="modal-body" style="grid-template-columns: 1fr;">
-                <a class="btn" href="#tong-quan" onclick="closeMenuModal()"><i class="fa-solid fa-grid-2"></i> Tổng quan</a>
-                <a class="btn" href="#dich-vu" onclick="closeMenuModal()"><i class="fa-regular fa-compass"></i> Danh mục dịch vụ</a>
-                <a class="btn" href="#yeu-cau" onclick="closeMenuModal()"><i class="fa-regular fa-rectangle-list"></i> Yêu cầu của tôi</a>
-                <a class="btn" href="#huong-dan" onclick="closeMenuModal()"><i class="fa-regular fa-circle-question"></i> Hướng dẫn</a>
-            </div>
-            <div class="modal-foot">
-                <button class="btn primary" onclick="closeMenuModal()"><i class="fa-solid fa-check"></i> Xong</button>
-            </div>
+          `).join("")}
         </div>
+      </div>
+
+      <div class="card">
+        <h2>Chỉ số nhanh</h2>
+        <div class="sub">Tổng hợp theo trạng thái.</div>
+        <div style="margin-top:12px; display:grid; gap:10px">
+          <div class="pill pending"><span class="dot"></span> Chờ duyệt: <b>${pending}</b></div>
+          <div class="pill processing"><span class="dot"></span> Đang xử lý: <b>${processing}</b></div>
+          <div class="pill done"><span class="dot"></span> Hoàn tất: <b>${done}</b></div>
+          <button type="button" class="btn primary" onclick="location.hash='#/u/services'">
+            <i class="fa-regular fa-grid-2"></i> Xem danh mục dịch vụ
+          </button>
+        </div>
+      </div>
     </div>
 
-    <script>
-        const modal = document.getElementById('modal');
-        const menuModal = document.getElementById('menuModal');
+    <div class="card" style="margin-top:14px">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+        <div>
+          <h2>Yêu cầu gần đây</h2>
+          <div class="sub">Bấm mã để xem chi tiết.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" class="btn" id="btnRefreshUser"><i class="fa-solid fa-arrows-rotate"></i> Làm mới</button>
+          <button type="button" class="btn" id="btnExportUser"><i class="fa-solid fa-file-csv"></i> Xuất CSV</button>
+        </div>
+      </div>
 
-        const openNewRequest = () => modal.classList.add('show');
-        const closeNewRequest = () => modal.classList.remove('show');
+      <div class="tableWrap" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã</th><th>Dịch vụ</th><th>Ngày tạo</th><th>Trạng thái</th><th>Lịch nhận</th><th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody id="userLatestBody">
+            ${latest.map(r=>rowReq(r)).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `);
 
-        document.getElementById('openNewRequest').addEventListener('click', openNewRequest);
-        document.getElementById('openNewRequest2').addEventListener('click', openNewRequest);
+  // bind
+  $$("[data-open]").forEach(el=>{
+    el.onclick = ()=> openCreateModal(el.dataset.open);
+  });
+  $("#btnRefreshUser").onclick = (e)=>{ e.preventDefault(); route(); };
+  $("#btnExportUser").onclick = (e)=>{
+    e.preventDefault();
+    const rows = DB.requests.map(r=>({
+      id:r.id,
+      service:r.serviceName,
+      created:r.created,
+      status:statusLabel(r.status),
+      pickup:r.pickup,
+      branch:r.branch,
+      note:r.note || ""
+    }));
+    downloadCSV("user_requests", rows);
+  };
+}
 
-        document.getElementById('closeModal').addEventListener('click', closeNewRequest);
-        document.getElementById('cancelBtn').addEventListener('click', closeNewRequest);
+function renderUserServices(){
+  setHeader("Danh mục dịch vụ", "Chọn dịch vụ để tạo yêu cầu đúng mẫu, tránh nhập sai.");
+  view(`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+        <div>
+          <h2>Danh sách dịch vụ</h2>
+          <div class="sub">Giao diện user: mô tả rõ “cần nhập gì” để tránh sai.</div>
+        </div>
+        <button type="button" class="btn primary" id="btnCreateOnServices"><i class="fa-solid fa-plus"></i> Tạo yêu cầu</button>
+      </div>
 
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) closeNewRequest();
-        });
+      <div class="row" style="margin-top:12px">
+        <div class="field">
+          <label>Tìm kiếm dịch vụ</label>
+          <input id="svcSearch" class="input" placeholder="VD: đổi tiền, túi rác, cây..." />
+        </div>
+        <div class="field">
+          <label>Lọc theo tag</label>
+          <select id="svcTag">
+            <option value="all">Tất cả</option>
+            <option value="Theo quota">Theo quota</option>
+            <option value="Theo định mức">Theo định mức</option>
+            <option value="Có chứng từ">Có chứng từ</option>
+          </select>
+        </div>
+        <div class="field fix" style="flex:0 0 auto">
+          <label>&nbsp;</label>
+          <button type="button" class="btn" id="btnSvcRefresh"><i class="fa-solid fa-arrows-rotate"></i> Làm mới</button>
+        </div>
+      </div>
 
-        // Card + quick buttons open modal with preselect
-        const setService = (name) => {
-            const select = document.getElementById('serviceSelect');
-            const map = {
-                "Đổi tiền Tết": "Đổi tiền Tết",
-                "Cấp túi rác": "Cấp túi rác",
-                "Cây cảnh": "Cây cảnh",
-                "Hỗ trợ giao dịch": "Hỗ trợ giao dịch"
-            };
-            if (map[name]) select.value = map[name];
-        };
+      <div class="svcGrid" id="svcGrid"></div>
+    </div>
+  `);
 
-        document.querySelectorAll('.service, .quick .btn').forEach(el => {
-            el.addEventListener('click', () => {
-                const name = el.getAttribute('data-service');
-                if (name) setService(name);
-                openNewRequest();
-            });
-        });
+  $("#btnCreateOnServices").onclick = ()=> openCreateModal("tet");
+  $("#btnSvcRefresh").onclick = (e)=>{ e.preventDefault(); $("#svcSearch").value=""; $("#svcTag").value="all"; renderServicesGrid(); };
+  $("#svcSearch").oninput = renderServicesGrid;
+  $("#svcTag").onchange = renderServicesGrid;
 
-        document.getElementById('submitBtn').addEventListener('click', () => {
-            alert('Đã gửi yêu cầu (demo UI).\\nBước tiếp theo: nối API + lưu DB.');
-            closeNewRequest();
-        });
+  renderServicesGrid();
+}
 
-        // Mobile menu
-        document.getElementById('openMenu').addEventListener('click', () => menuModal.classList.add('show'));
-        document.getElementById('closeMenu').addEventListener('click', () => menuModal.classList.remove('show'));
-        menuModal.addEventListener('click', (e) => {
-            if (e.target === menuModal) menuModal.classList.remove('show');
-        });
-        window.closeMenuModal = () => menuModal.classList.remove('show');
+function renderServicesGrid(){
+  const q = ($("#svcSearch").value || "").trim().toLowerCase();
+  const tag = $("#svcTag").value;
 
-        // Active nav (desktop)
-        const navLinks = document.querySelectorAll('#nav a');
-        const sections = ['tong-quan', 'dich-vu', 'yeu-cau', 'huong-dan'].map(id => document.getElementById(id));
+  const list = DB.services.filter(s=>{
+    const hay = `${s.name} ${s.desc} ${(s.tags||[]).join(" ")}`.toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(tag!=="all" && !(s.tags||[]).includes(tag)) return false;
+    return true;
+  });
 
-        const setActive = () => {
-            const y = window.scrollY + 120;
-            let activeId = 'tong-quan';
-            sections.forEach(s => {
-                if (s && s.offsetTop <= y) activeId = s.id;
-            });
-            navLinks.forEach(a => a.classList.toggle('active', (a.getAttribute('href') === '#' + activeId)));
-        };
-        window.addEventListener('scroll', setActive);
-        setActive();
+  $("#svcGrid").innerHTML = list.map(s=>`
+    <div class="svc" data-open="${s.key}">
+      <div class="svcIcon"><i class="fa-solid ${s.icon}"></i></div>
+      <div style="flex:1">
+        <h3>${s.name}</h3>
+        <p>${s.desc}</p>
+        <div class="meta">
+          <span class="pill"><i class="fa-regular fa-clock"></i> ${s.sla}</span>
+          ${(s.tags||[]).slice(0,2).map(t=>`<span class="pill">${t}</span>`).join("")}
+        </div>
+      </div>
+    </div>
+  `).join("") || `<div class="sub" style="margin-top:14px">Không có dịch vụ phù hợp.</div>`;
 
-        document.getElementById('refreshBtn').addEventListener('click', () => {
-            alert('Làm mới (demo).\\nSau này gọi API để lấy dữ liệu mới nhất.');
-        });
-    </script>
+  $$("[data-open]").forEach(el=>{
+    el.onclick = ()=> openCreateModal(el.dataset.open);
+  });
+}
+
+function renderUserRequests(){
+  setHeader("Yêu cầu của tôi", "Theo dõi tiến độ xử lý, lịch nhận và ghi chú.");
+  view(`
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label>Tìm kiếm</label>
+          <input class="input" id="reqSearch" placeholder="Tìm mã, dịch vụ, ghi chú..." />
+        </div>
+        <div class="field">
+          <label>Trạng thái</label>
+          <select id="reqStatus">
+            <option value="all">Tất cả</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="approved">Đã duyệt</option>
+            <option value="processing">Đang xử lý</option>
+            <option value="done">Hoàn tất</option>
+            <option value="rejected">Từ chối</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Dịch vụ</label>
+          <select id="reqService">
+            <option value="all">Tất cả</option>
+            ${DB.services.map(s=>`<option value="${s.key}">${s.name}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field fix" style="flex:0 0 auto">
+          <label>&nbsp;</label>
+          <button type="button" class="btn" id="btnReqRefresh"><i class="fa-solid fa-arrows-rotate"></i> Làm mới</button>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px">
+        <button type="button" class="btn primary" id="btnReqCreate"><i class="fa-solid fa-plus"></i> Tạo yêu cầu</button>
+        <button type="button" class="btn" id="btnReqFind"><i class="fa-solid fa-magnifying-glass"></i> Find mã</button>
+        <button type="button" class="btn" id="btnReqExport"><i class="fa-solid fa-file-csv"></i> Xuất CSV</button>
+        <span class="pill">Kết quả: <b id="reqCount">0</b></span>
+      </div>
+
+      <div class="tableWrap" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã</th><th>Dịch vụ</th><th>Ngày tạo</th><th>Trạng thái</th><th>Lịch nhận</th><th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody id="reqBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  const rerender = ()=> renderReqTable();
+  $("#reqSearch").oninput = rerender;
+  $("#reqStatus").onchange = rerender;
+  $("#reqService").onchange = rerender;
+
+  $("#btnReqRefresh").onclick = (e)=>{
+    e.preventDefault();
+    $("#reqSearch").value="";
+    $("#reqStatus").value="all";
+    $("#reqService").value="all";
+    renderReqTable();
+  };
+  $("#btnReqCreate").onclick = ()=> openCreateModal("tet");
+  $("#btnReqFind").onclick = ()=>{
+    const id = (prompt("Nhập mã yêu cầu (VD: REQ-1023):")||"").trim().toUpperCase();
+    if(!id) return;
+    const r = DB.requests.find(x=>x.id===id);
+    if(!r) return alert("Không tìm thấy mã này.");
+    location.hash = "#/detail/"+encodeURIComponent(r.id);
+  };
+  $("#btnReqExport").onclick = ()=>{
+    const rows = getFilteredRequests().map(r=>({
+      id:r.id,
+      service:r.serviceName,
+      created:r.created,
+      status:statusLabel(r.status),
+      pickup:r.pickup,
+      branch:r.branch,
+      note:r.note || ""
+    }));
+    downloadCSV("my_requests_export", rows);
+  };
+
+  renderReqTable();
+}
+
+function getFilteredRequests(){
+  const q = ($("#reqSearch").value || "").trim().toLowerCase();
+  const st = $("#reqStatus").value;
+  const sv = $("#reqService").value;
+
+  return DB.requests.filter(r=>{
+    const hay = `${r.id} ${r.serviceName} ${r.note||""}`.toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(st!=="all" && r.status!==st) return false;
+    if(sv!=="all" && r.serviceKey!==sv) return false;
+    return true;
+  }).sort((a,b)=> b.created.localeCompare(a.created));
+}
+
+function renderReqTable(){
+  const rows = getFilteredRequests();
+  $("#reqCount").textContent = rows.length;
+  $("#reqBody").innerHTML = rows.map(r=>rowReq(r)).join("") || `
+    <tr><td colspan="6" style="color:var(--muted)">Chưa có yêu cầu nào.</td></tr>
+  `;
+}
+
+function renderUserGuide(){
+  setHeader("Hướng dẫn", "Quy định, định mức và lưu ý khi tạo yêu cầu.");
+  const tet = DB.tetConfig;
+  view(`
+    <div class="card">
+      <h2>Quy định chung</h2>
+      <div class="sub">Một số quy tắc vận hành gọn và minh bạch.</div>
+      <div style="margin-top:12px; display:grid; gap:10px">
+        <div class="pill"><i class="fa-solid fa-coins"></i> Đổi tiền Tết: Min <b>${fmtVND(tet.min)}</b> • Max <b>${fmtVND(tet.max)}</b> • Chọn cách nộp tiền.</div>
+        <div class="pill"><i class="fa-solid fa-boxes-stacked"></i> Đồ dùng/túi rác: Trong định mức auto duyệt; vượt định mức chuyển duyệt.</div>
+        <div class="pill"><i class="fa-solid fa-seedling"></i> Cây cảnh: Có chương trình; giới hạn số cây/đợt; check-in khi nhận.</div>
+        <div class="pill"><i class="fa-solid fa-file-circle-check"></i> Mọi thay đổi đều có audit log; xuất CSV để lưu sheet.</div>
+      </div>
+    </div>
+  `);
+}
+
+function renderUserAccount(){
+  setHeader("Tài khoản", "Quản lý thông tin cá nhân và quyền truy cập.");
+  const me = DB.me;
+  view(`
+    <div class="grid">
+      <div class="card">
+        <h2>Thông tin người dùng</h2>
+        <div class="sub">Demo UI • Thực tế sẽ lấy từ SSO/LDAP.</div>
+        <div class="row" style="margin-top:12px">
+          <div class="field"><label>Họ và tên</label><input class="input" id="acName" value="${me.name}"></div>
+          <div class="field"><label>Email</label><input class="input" id="acEmail" value="${me.email}"></div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div class="field"><label>Phòng ban</label><input class="input" id="acDept" value="${me.dept}"></div>
+          <div class="field"><label>Chi nhánh</label><input class="input" id="acBranch" value="${me.branch}"></div>
+        </div>
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+          <button type="button" class="btn primary" id="btnSaveProfile"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+          <button type="button" class="btn" id="btnGoAdmin"><i class="fa-solid fa-shield-halved"></i> Vào Admin</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Quyền truy cập</h2>
+        <div class="sub">Danh sách quyền theo vai trò (RBAC).</div>
+        <div style="margin-top:12px; display:grid; gap:10px">
+          <div class="pill"><i class="fa-solid fa-check-double"></i> Duyệt yêu cầu</div>
+          <div class="pill"><i class="fa-solid fa-warehouse"></i> Quản lý kho & tồn</div>
+          <div class="pill"><i class="fa-solid fa-coins"></i> Quản lý đợt đổi tiền</div>
+        </div>
+      </div>
+    </div>
+  `);
+
+  $("#btnSaveProfile").onclick = ()=>{
+    DB.me.name = $("#acName").value.trim() || DB.me.name;
+    DB.me.email = $("#acEmail").value.trim() || DB.me.email;
+    DB.me.dept = $("#acDept").value.trim() || DB.me.dept;
+    DB.me.branch = $("#acBranch").value.trim() || DB.me.branch;
+    saveState();
+    syncMe();
+    alert("Đã lưu (demo).");
+  };
+  $("#btnGoAdmin").onclick = ()=> location.hash = "#/a/dashboard";
+}
+
+/* =========================================================
+   ADMIN VIEWS
+========================================================= */
+function renderAdminDashboard(){
+  setHeader("Admin • Tổng quan", "Nhìn nhanh trạng thái hệ thống: yêu cầu, cấu hình, tồn kho, cảnh báo.");
+  const pending = DB.requests.filter(r=>r.status==="pending").length;
+  const processing = DB.requests.filter(r=>r.status==="processing").length;
+  const low = DB.inventory.filter(i=> i.stock < i.min).length;
+
+  view(`
+    <div class="card">
+      <div class="row">
+        <div class="pill pending"><span class="dot"></span> Chờ duyệt: <b>${pending}</b></div>
+        <div class="pill processing"><span class="dot"></span> Đang xử lý: <b>${processing}</b></div>
+        <div class="pill"><i class="fa-solid fa-triangle-exclamation"></i> Cảnh báo tồn thấp: <b>${low}</b></div>
+      </div>
+
+      <div class="sub" style="margin-top:10px">Đi nhanh đến khu vực quản trị chính</div>
+      <div class="svcGrid" style="grid-template-columns: repeat(2,1fr); margin-top:12px">
+        <div class="svc" onclick="location.hash='#/a/approvals'">
+          <div class="svcIcon"><i class="fa-solid fa-check-double"></i></div>
+          <div>
+            <h3>Duyệt yêu cầu</h3>
+            <p>Duyệt / từ chối / xử lý hàng loạt + xuất CSV.</p>
+          </div>
+        </div>
+        <div class="svc" onclick="location.hash='#/a/tet'">
+          <div class="svcIcon"><i class="fa-solid fa-coins"></i></div>
+          <div>
+            <h3>Đợt đổi tiền Tết</h3>
+            <p>Min/Max, mệnh giá, phương thức nộp tiền, quy tắc.</p>
+          </div>
+        </div>
+        <div class="svc" onclick="location.hash='#/a/inventory'">
+          <div class="svcIcon"><i class="fa-solid fa-warehouse"></i></div>
+          <div>
+            <h3>Kho & tồn</h3>
+            <p>Nhập/xuất tồn kho + audit + xuất CSV.</p>
+          </div>
+        </div>
+        <div class="svc" onclick="location.hash='#/u/account'">
+          <div class="svcIcon"><i class="fa-regular fa-user"></i></div>
+          <div>
+            <h3>Tài khoản</h3>
+            <p>Thông tin & quyền truy cập.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+        <div>
+          <h2>Yêu cầu mới nhất</h2>
+          <div class="sub">Bấm mã để xem chi tiết.</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" class="btn" id="btnAdminRefresh"><i class="fa-solid fa-arrows-rotate"></i> Làm mới</button>
+          <button type="button" class="btn" id="btnAdminExport"><i class="fa-solid fa-file-csv"></i> Xuất CSV</button>
+        </div>
+      </div>
+
+      <div class="tableWrap" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã</th><th>Dịch vụ</th><th>Người tạo</th><th>Chi nhánh</th><th>Trạng thái</th><th>Ngày tạo</th>
+            </tr>
+          </thead>
+          <tbody id="adminLatestBody">
+            ${DB.requests.slice(0,10).map(r=>`
+              <tr>
+                <td><a class="link" href="#/detail/${encodeURIComponent(r.id)}">${r.id}</a></td>
+                <td>${r.serviceName}</td>
+                <td>${r.createdBy?.name||"—"}</td>
+                <td>${r.branch}</td>
+                <td>${statusPill(r.status)}</td>
+                <td>${r.created}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  $("#btnAdminRefresh").onclick = (e)=>{ e.preventDefault(); route(); };
+  $("#btnAdminExport").onclick = (e)=>{
+    e.preventDefault();
+    downloadCSV("admin_latest_requests", DB.requests.map(r=>({
+      id:r.id, service:r.serviceName, createdBy:r.createdBy?.name||"",
+      branch:r.branch, status:statusLabel(r.status), created:r.created
+    })));
+  };
+}
+
+function renderAdminApprovals(){
+  setHeader("Admin • Duyệt yêu cầu", "Lọc theo dịch vụ/trạng thái/chi nhánh. Duyệt nhanh (chọn) và xuất CSV.");
+  view(`
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label>Tìm kiếm</label>
+          <input id="apSearch" class="input" placeholder="Mã yêu cầu, tên nhân viên, ghi chú..." />
+        </div>
+        <div class="field">
+          <label>Dịch vụ</label>
+          <select id="apService">
+            <option value="all">Tất cả</option>
+            ${DB.services.map(s=>`<option value="${s.key}">${s.name}</option>`).join("")}
+          </select>
+        </div>
+        <div class="field">
+          <label>Trạng thái</label>
+          <select id="apStatus">
+            <option value="all">Tất cả</option>
+            <option value="pending">Chờ duyệt</option>
+            <option value="approved">Đã duyệt</option>
+            <option value="processing">Đang xử lý</option>
+            <option value="done">Hoàn tất</option>
+            <option value="rejected">Từ chối</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Chi nhánh</label>
+          <select id="apBranch">
+            <option value="all">Tất cả</option>
+            <option>Trụ sở chính</option>
+            <option>Chi nhánh A</option>
+            <option>Chi nhánh B</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px">
+        <button type="button" class="btn" id="btnApRefresh"><i class="fa-solid fa-arrows-rotate"></i> Làm mới</button>
+        <button type="button" class="btn" id="btnApSelectAll"><i class="fa-regular fa-square-check"></i> Chọn tất</button>
+        <button type="button" class="btn primary" id="btnApBulkApprove"><i class="fa-solid fa-check"></i> Duyệt nhanh</button>
+        <button type="button" class="btn danger" id="btnApBulkReject"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+        <button type="button" class="btn" id="btnApFind"><i class="fa-solid fa-magnifying-glass"></i> Find mã</button>
+        <button type="button" class="btn" id="btnApExport"><i class="fa-solid fa-file-csv"></i> Xuất CSV</button>
+        <span class="pill">Kết quả: <b id="apCount">0</b></span>
+      </div>
+
+      <div class="tableWrap" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr>
+              <th></th><th>Mã</th><th>Nhân viên</th><th>Dịch vụ</th><th>Chi nhánh</th><th>Ngày tạo</th><th>Trạng thái</th><th>Lịch nhận</th><th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="apBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  const rer = ()=> renderApprovalTable();
+  $("#apSearch").oninput = rer;
+  $("#apService").onchange = rer;
+  $("#apStatus").onchange = rer;
+  $("#apBranch").onchange = rer;
+
+  $("#btnApRefresh").onclick = (e)=>{ e.preventDefault(); $("#apSearch").value=""; $("#apService").value="all"; $("#apStatus").value="all"; $("#apBranch").value="all"; renderApprovalTable(); };
+  $("#btnApSelectAll").onclick = ()=>{
+    const all = $$(".apChk");
+    const hasUnchecked = all.some(x=>!x.checked);
+    all.forEach(x=> x.checked = hasUnchecked);
+  };
+  $("#btnApFind").onclick = ()=>{
+    const id = (prompt("Nhập mã yêu cầu (VD: REQ-1023):")||"").trim().toUpperCase();
+    if(!id) return;
+    const r = DB.requests.find(x=>x.id===id);
+    if(!r) return alert("Không tìm thấy.");
+    location.hash = "#/detail/"+encodeURIComponent(r.id);
+  };
+  $("#btnApExport").onclick = ()=>{
+    const rows = getFilteredApprovals().map(r=>({
+      id:r.id, service:r.serviceName, createdBy:r.createdBy?.name||"",
+      branch:r.branch, status:statusLabel(r.status), created:r.created, pickup:r.pickup, note:r.note||""
+    }));
+    downloadCSV("approvals_export", rows);
+  };
+  $("#btnApBulkApprove").onclick = ()=>{
+    const ids = $$(".apChk").filter(x=>x.checked).map(x=>x.closest("tr").dataset.id);
+    if(!ids.length) return alert("Chọn ít nhất 1 yêu cầu.");
+    ids.forEach(id=>{
+      const r = DB.requests.find(x=>x.id===id);
+      r.status="approved";
+      addAudit(r, "Duyệt", "Admin • OPS", "Duyệt hàng loạt");
+    });
+    saveState();
+    alert(`Đã duyệt ${ids.length} yêu cầu (demo).`);
+    renderApprovalTable();
+  };
+  $("#btnApBulkReject").onclick = ()=>{
+    const ids = $$(".apChk").filter(x=>x.checked).map(x=>x.closest("tr").dataset.id);
+    if(!ids.length) return alert("Chọn ít nhất 1 yêu cầu.");
+    const reason = prompt("Lý do từ chối:") || "—";
+    ids.forEach(id=>{
+      const r = DB.requests.find(x=>x.id===id);
+      r.status="rejected";
+      addAudit(r, "Từ chối", "Admin • OPS", "Bulk: "+reason);
+    });
+    saveState();
+    alert(`Đã từ chối ${ids.length} yêu cầu (demo).`);
+    renderApprovalTable();
+  };
+
+  renderApprovalTable();
+}
+
+function getFilteredApprovals(){
+  const q = ($("#apSearch").value||"").trim().toLowerCase();
+  const sv = $("#apService").value;
+  const st = $("#apStatus").value;
+  const br = $("#apBranch").value;
+
+  return DB.requests.filter(r=>{
+    const hay = `${r.id} ${r.serviceName} ${r.createdBy?.name||""} ${r.note||""}`.toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(sv!=="all" && r.serviceKey!==sv) return false;
+    if(st!=="all" && r.status!==st) return false;
+    if(br!=="all" && r.branch!==br) return false;
+    return true;
+  });
+}
+
+function renderApprovalTable(){
+  const rows = getFilteredApprovals();
+  $("#apCount").textContent = rows.length;
+  $("#apBody").innerHTML = rows.map(r=>`
+    <tr data-id="${r.id}">
+      <td><input class="apChk" type="checkbox"/></td>
+      <td><a class="link" href="#/detail/${encodeURIComponent(r.id)}">${r.id}</a></td>
+      <td>${r.createdBy?.name||"—"}</td>
+      <td>${r.serviceName}</td>
+      <td>${r.branch}</td>
+      <td>${r.created}</td>
+      <td>${statusPill(r.status)}</td>
+      <td>${r.pickup}</td>
+      <td style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn small primary" data-appr="${r.id}"><i class="fa-solid fa-check"></i> Duyệt</button>
+        <button type="button" class="btn small danger" data-rej="${r.id}"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+      </td>
+    </tr>
+  `).join("") || `<tr><td colspan="9" style="color:var(--muted)">Không có dữ liệu.</td></tr>`;
+
+  $$("[data-appr]").forEach(b=>{
+    b.onclick = ()=>{
+      const id=b.dataset.appr;
+      const r=DB.requests.find(x=>x.id===id);
+      r.status="approved";
+      addAudit(r,"Duyệt","Admin • OPS","Duyệt từ danh sách");
+      saveState();
+      renderApprovalTable();
+    };
+  });
+  $$("[data-rej]").forEach(b=>{
+    b.onclick = ()=>{
+      const id=b.dataset.rej;
+      const r=DB.requests.find(x=>x.id===id);
+      const reason=prompt("Lý do từ chối:")||"—";
+      r.status="rejected";
+      addAudit(r,"Từ chối","Admin • OPS",reason);
+      saveState();
+      renderApprovalTable();
+    };
+  });
+}
+
+function renderAdminTet(){
+  setHeader("Admin • Đợt đổi tiền Tết", "Cấu hình min/max, mệnh giá, phương thức nộp tiền. (Demo lưu localStorage)");
+  const cfg = DB.tetConfig;
+  view(`
+    <div class="grid">
+      <div class="card">
+        <h2>Cấu hình min/max</h2>
+        <div class="sub">Áp dụng cho mỗi nhân viên / mỗi đợt.</div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label>Min (VND)</label>
+            <input id="tetMin" class="input" value="${cfg.min}" />
+            <div class="hint">Hiện: <b id="tetMinFmt">${fmtVND(cfg.min)}</b></div>
+          </div>
+          <div class="field">
+            <label>Max (VND)</label>
+            <input id="tetMax" class="input" value="${cfg.max}" />
+            <div class="hint">Hiện: <b id="tetMaxFmt">${fmtVND(cfg.max)}</b></div>
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:12px">
+          <label>Mệnh giá (phân cách bằng dấu phẩy)</label>
+          <input id="tetDenoms" class="input" value="${cfg.denominations.join(",")}" />
+          <div class="hint">VD: 10000,20000,50000</div>
+        </div>
+
+        <div class="field" style="margin-top:12px">
+          <label>Phương thức nộp tiền (mỗi dòng 1 phương thức)</label>
+          <textarea id="tetPay">${cfg.paymentMethods.join("\n")}</textarea>
+        </div>
+
+        <div style="margin-top:12px; display:flex; gap:10px; flex-wrap:wrap">
+          <button type="button" class="btn primary" id="btnTetSave"><i class="fa-solid fa-floppy-disk"></i> Lưu</button>
+          <button type="button" class="btn" id="btnTetExport"><i class="fa-solid fa-file-csv"></i> Xuất CSV</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Kiểm tra nhanh</h2>
+        <div class="sub">Form tạo “Đổi tiền Tết” sẽ auto theo cấu hình này.</div>
+        <div style="margin-top:12px; display:grid; gap:10px">
+          <div class="pill"><i class="fa-solid fa-money-bill-wave"></i> Min: <b>${fmtVND(cfg.min)}</b></div>
+          <div class="pill"><i class="fa-solid fa-sack-dollar"></i> Max: <b>${fmtVND(cfg.max)}</b></div>
+          <div class="pill"><i class="fa-solid fa-layer-group"></i> Mệnh giá: <b>${cfg.denominations.map(x=>x.toLocaleString("vi-VN")).join(", ")}</b></div>
+        </div>
+      </div>
+    </div>
+  `);
+
+  const refreshFmt = ()=>{
+    $("#tetMinFmt").textContent = fmtVND(Number($("#tetMin").value||0));
+    $("#tetMaxFmt").textContent = fmtVND(Number($("#tetMax").value||0));
+  };
+  $("#tetMin").oninput = refreshFmt;
+  $("#tetMax").oninput = refreshFmt;
+
+  $("#btnTetSave").onclick = ()=>{
+    const min = Number($("#tetMin").value||0);
+    const max = Number($("#tetMax").value||0);
+    if(min<=0 || max<=0 || max<min) return alert("Min/Max không hợp lệ.");
+    const den = ($("#tetDenoms").value||"").split(",").map(s=>Number(s.trim())).filter(n=>n>0);
+    if(!den.length) return alert("Mệnh giá không hợp lệ.");
+    const pay = ($("#tetPay").value||"").split("\n").map(s=>s.trim()).filter(Boolean);
+    if(!pay.length) return alert("Phương thức nộp tiền không hợp lệ.");
+
+    DB.tetConfig.min=min;
+    DB.tetConfig.max=max;
+    DB.tetConfig.denominations=den;
+    DB.tetConfig.paymentMethods=pay;
+    saveState();
+    alert("Đã lưu cấu hình (demo).");
+    route();
+  };
+
+  $("#btnTetExport").onclick = ()=>{
+    downloadCSV("tet_config", [{
+      min: DB.tetConfig.min,
+      max: DB.tetConfig.max,
+      denominations: DB.tetConfig.denominations.join("|"),
+      paymentMethods: DB.tetConfig.paymentMethods.join("|")
+    }]);
+  };
+}
+
+function renderAdminInventory(){
+  setHeader("Admin • Kho & tồn", "Tìm kiếm, lọc tồn thấp, nhập/xuất demo và xuất CSV tồn kho + audit.");
+  view(`
+    <div class="card">
+      <div class="row">
+        <div class="field">
+          <label>Tìm vật tư</label>
+          <input id="invSearch" class="input" placeholder="Mã / tên vật tư..." />
+        </div>
+        <div class="field">
+          <label>Kho</label>
+          <select id="invWarehouse">
+            <option value="all">Tất cả</option>
+            <option>Kho Trụ sở</option>
+            <option>Kho Sảnh</option>
+          </select>
+        </div>
+        <div class="field fix" style="flex:0 0 auto">
+          <label>&nbsp;</label>
+          <label class="pill" style="cursor:pointer">
+            <input id="invLowOnly" type="checkbox" style="width:auto;margin-right:8px"> Chỉ tồn thấp
+          </label>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px">
+        <button type="button" class="btn" id="btnInvRefresh"><i class="fa-solid fa-arrows-rotate"></i> Làm mới</button>
+        <button type="button" class="btn" id="btnInvExport"><i class="fa-solid fa-file-csv"></i> Xuất tồn kho</button>
+        <button type="button" class="btn" id="btnAuditExport"><i class="fa-solid fa-file-csv"></i> Xuất audit</button>
+        <span class="pill">Số dòng: <b id="invCount">0</b></span>
+      </div>
+
+      <div class="tableWrap" style="margin-top:12px">
+        <table>
+          <thead>
+            <tr>
+              <th>Mã</th><th>Tên</th><th>Nhóm</th><th>Đơn vị</th><th>Tồn</th><th>Tối thiểu</th><th>Kho</th><th>Thao tác</th>
+            </tr>
+          </thead>
+          <tbody id="invBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px">
+      <h2>Lịch sử nhập/xuất (Audit)</h2>
+      <div class="sub">Ai • lúc nào • nhập/xuất bao nhiêu • ghi chú.</div>
+
+      <div class="tableWrap" style="margin-top:12px">
+        <table style="min-width:860px">
+          <thead>
+            <tr>
+              <th>Thời gian</th><th>Loại</th><th>Mã</th><th>Số lượng</th><th>Liên kết</th><th>Người thực hiện</th><th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody id="auditBody"></tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  const rer = ()=> renderInvTable();
+  $("#invSearch").oninput = rer;
+  $("#invWarehouse").onchange = rer;
+  $("#invLowOnly").onchange = rer;
+
+  $("#btnInvRefresh").onclick = (e)=>{ e.preventDefault(); $("#invSearch").value=""; $("#invWarehouse").value="all"; $("#invLowOnly").checked=false; renderInvTable(); };
+  $("#btnInvExport").onclick = ()=>{
+    downloadCSV("inventory_export", DB.inventory.map(i=>({
+      code:i.code, name:i.name, group:i.group, unit:i.unit, stock:i.stock, min:i.min, warehouse:i.warehouse
+    })));
+  };
+  $("#btnAuditExport").onclick = ()=>{
+    downloadCSV("inventory_audit_export", DB.inventoryAudit);
+  };
+
+  renderInvTable();
+  renderAudit();
+}
+
+function renderInvTable(){
+  const q = ($("#invSearch").value||"").trim().toLowerCase();
+  const wh = $("#invWarehouse").value;
+  const lowOnly = $("#invLowOnly").checked;
+
+  const rows = DB.inventory.filter(i=>{
+    const hay = `${i.code} ${i.name} ${i.group}`.toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(wh!=="all" && i.warehouse!==wh) return false;
+    if(lowOnly && !(i.stock < i.min)) return false;
+    return true;
+  });
+
+  $("#invCount").textContent = rows.length;
+  $("#invBody").innerHTML = rows.map(i=>`
+    <tr>
+      <td>${i.code}</td>
+      <td>${i.name}</td>
+      <td>${i.group}</td>
+      <td>${i.unit}</td>
+      <td style="font-weight:900;color:${i.stock<i.min?'var(--bad)':'inherit'}">${i.stock}</td>
+      <td>${i.min}</td>
+      <td>${i.warehouse}</td>
+      <td style="display:flex;gap:8px;flex-wrap:wrap">
+        <button type="button" class="btn small" data-out="${i.code}"><i class="fa-solid fa-arrow-up-from-bracket"></i> Xuất</button>
+        <button type="button" class="btn small primary" data-in="${i.code}"><i class="fa-solid fa-plus"></i> Nhập</button>
+      </td>
+    </tr>
+  `).join("") || `<tr><td colspan="8" style="color:var(--muted)">Không có dữ liệu.</td></tr>`;
+
+  $$("[data-in]").forEach(b=>{
+    b.onclick = ()=>{
+      const code=b.dataset.in;
+      const item=DB.inventory.find(x=>x.code===code);
+      const qty=Number(prompt(`Nhập kho ${code} số lượng:`)||"0");
+      if(qty<=0) return;
+      item.stock += qty;
+      DB.inventoryAudit.unshift({ time: nowStr(), type:"Nhập", code, qty:`${qty} ${item.unit}`, ref:"-", by:"Kho • OPS", note:"Nhập kho (demo)" });
+      saveState();
+      renderInvTable(); renderAudit();
+    };
+  });
+  $$("[data-out]").forEach(b=>{
+    b.onclick = ()=>{
+      const code=b.dataset.out;
+      const item=DB.inventory.find(x=>x.code===code);
+      const qty=Number(prompt(`Xuất kho ${code} số lượng:`)||"0");
+      if(qty<=0) return;
+      if(item.stock-qty < 0) return alert("Không đủ tồn.");
+      item.stock -= qty;
+      DB.inventoryAudit.unshift({ time: nowStr(), type:"Xuất", code, qty:`${qty} ${item.unit}`, ref:"-", by:"Kho • OPS", note:"Xuất kho (demo)" });
+      saveState();
+      renderInvTable(); renderAudit();
+    };
+  });
+}
+
+function renderAudit(){
+  $("#auditBody").innerHTML = DB.inventoryAudit.map(a=>`
+    <tr>
+      <td>${a.time}</td><td>${a.type}</td><td>${a.code}</td><td>${a.qty}</td><td>${a.ref}</td><td>${a.by}</td><td>${a.note}</td>
+    </tr>
+  `).join("") || `<tr><td colspan="7" style="color:var(--muted)">Chưa có audit.</td></tr>`;
+}
+
+/* =========================================================
+   DETAIL VIEW
+========================================================= */
+function rowReq(r){
+  return `
+    <tr>
+      <td><a class="link" href="#/detail/${encodeURIComponent(r.id)}">${r.id}</a></td>
+      <td>${r.serviceName}</td>
+      <td>${r.created}</td>
+      <td>${statusPill(r.status)}</td>
+      <td>${r.pickup}</td>
+      <td style="color:var(--muted)">${r.note||""}</td>
+    </tr>
+  `;
+}
+
+function renderDetail(id){
+  const r = DB.requests.find(x=>x.id===id);
+  if(!r){
+    setHeader("Chi tiết yêu cầu", "Không tìm thấy yêu cầu.");
+    view(`<div class="card"><h2>Không tìm thấy</h2><div class="sub">Mã yêu cầu không tồn tại.</div></div>`);
+    return;
+  }
+
+  setHeader(`Chi tiết • ${r.id}`, "Xem nội dung, nghiệp vụ và audit log.");
+
+  const detailHtml = buildDetailBlock(r);
+
+  view(`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:flex-start">
+        <div>
+          <h2>${r.serviceName} • ${r.branch}</h2>
+          <div class="sub">Người tạo: <b>${r.createdBy?.name||"—"}</b> • Ngày tạo: <b>${r.created}</b> • Lịch nhận: <b>${r.pickup}</b></div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+          ${statusPill(r.status)}
+          <button type="button" class="btn small" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Quay lại</button>
+          <button type="button" class="btn small" id="btnDetailExport"><i class="fa-solid fa-file-csv"></i> Xuất CSV</button>
+        </div>
+      </div>
+    </div>
+
+    ${detailHtml}
+
+    <div class="card" style="margin-top:14px">
+      <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+        <div>
+          <h2>Audit log</h2>
+          <div class="sub">Ai • lúc nào • hành động • ghi chú.</div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button type="button" class="btn small primary" id="btnApprove"><i class="fa-solid fa-check"></i> Duyệt</button>
+          <button type="button" class="btn small" id="btnProcessing"><i class="fa-solid fa-hourglass"></i> Sang xử lý</button>
+          <button type="button" class="btn small" id="btnDone"><i class="fa-solid fa-circle-check"></i> Hoàn tất</button>
+          <button type="button" class="btn small danger" id="btnReject"><i class="fa-solid fa-xmark"></i> Từ chối</button>
+        </div>
+      </div>
+
+      <div class="tableWrap" style="margin-top:12px">
+        <table style="min-width:860px">
+          <thead>
+            <tr><th>Thời gian</th><th>Hành động</th><th>Người thực hiện</th><th>Ghi chú</th></tr>
+          </thead>
+          <tbody>
+            ${(r.audit||[]).map(a=>`
+              <tr><td>${a.time}</td><td>${a.action}</td><td>${a.by}</td><td>${a.note||""}</td></tr>
+            `).join("")}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `);
+
+  $("#btnDetailExport").onclick = ()=>{
+    downloadCSV(`request_${r.id}`, [{
+      id:r.id,
+      service:r.serviceName,
+      status:statusLabel(r.status),
+      created:r.created,
+      pickup:r.pickup,
+      branch:r.branch,
+      createdBy:r.createdBy?.name||"",
+      note:r.note||"",
+      total:r.details?.total || ""
+    }]);
+  };
+
+  $("#btnApprove").onclick = ()=> setReqStatus(r.id, "approved", "Duyệt", "Admin • OPS", "Duyệt từ chi tiết");
+  $("#btnProcessing").onclick = ()=> setReqStatus(r.id, "processing", "Sang xử lý", "Admin • OPS", "Chuyển kho/OPS");
+  $("#btnDone").onclick = ()=> setReqStatus(r.id, "done", "Hoàn tất", "Admin • OPS", "Đã bàn giao");
+  $("#btnReject").onclick = ()=>{
+    const reason = prompt("Lý do từ chối:") || "—";
+    setReqStatus(r.id, "rejected", "Từ chối", "Admin • OPS", reason);
+  };
+}
+
+function setReqStatus(id, st, action, by, note){
+  const r = DB.requests.find(x=>x.id===id);
+  r.status = st;
+  addAudit(r, action, by, note);
+  saveState();
+  route();
+}
+
+function buildDetailBlock(r){
+  if(r.serviceKey==="tet"){
+    const items = (r.details?.denomItems||[]);
+    const rows = items.map(x=>`
+      <tr><td>${Number(x.denom).toLocaleString("vi-VN")}</td><td>${x.qty}</td><td>${fmtVND(x.denom*x.qty)}</td></tr>
+    `).join("");
+
+    return `
+      <div class="card" style="margin-top:14px">
+        <h2>Chi tiết đổi tiền</h2>
+        <div class="sub">Cách nộp tiền: <b>${r.details?.payment||"—"}</b> • Ref: <b>${r.details?.ref||"—"}</b></div>
+        <div class="tableWrap" style="margin-top:12px">
+          <table style="min-width:700px">
+            <thead><tr><th>Mệnh giá</th><th>Số lượng</th><th>Thành tiền</th></tr></thead>
+            <tbody>${rows}</tbody>
+            <tfoot><tr><td colspan="2" style="font-weight:900">Tổng</td><td style="font-weight:900">${fmtVND(r.details?.total||0)}</td></tr></tfoot>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  if(r.serviceKey==="supply"){
+    const items = (r.details?.items||[]);
+    const rows = items.map(x=>`<tr><td>${x.code}</td><td>${x.name}</td><td>${x.qty} ${x.unit}</td></tr>`).join("");
+    return `
+      <div class="card" style="margin-top:14px">
+        <h2>Chi tiết cấp đồ dùng</h2>
+        <div class="sub">Định mức tháng: <b>${r.details?.monthCount||0}/${r.details?.monthLimit||0}</b></div>
+        <div class="tableWrap" style="margin-top:12px">
+          <table style="min-width:700px">
+            <thead><tr><th>Mã</th><th>Tên</th><th>Số lượng</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  }
+
+  if(r.serviceKey==="plant"){
+    return `
+      <div class="card" style="margin-top:14px">
+        <h2>Chi tiết cây cảnh</h2>
+        <div style="margin-top:12px; display:grid; gap:10px">
+          <div class="pill"><i class="fa-solid fa-seedling"></i> Loại cây: <b>${r.details?.plantName||"—"}</b></div>
+          <div class="pill"><i class="fa-regular fa-square-check"></i> Số lượng: <b>${r.details?.qty||0}</b></div>
+          <div class="pill"><i class="fa-regular fa-circle-question"></i> Lý do: <b>${r.details?.reason||"—"}</b></div>
+        </div>
+      </div>
+    `;
+  }
+
+  if(r.serviceKey==="transfer"){
+    return `
+      <div class="card" style="margin-top:14px">
+        <h2>Chi tiết chuyển khoản</h2>
+        <div class="sub">Số tiền: <b>${fmtVND(r.details?.amount||0)}</b> • Người nhận: <b>${r.details?.toName||"—"}</b></div>
+        <div style="margin-top:12px; display:grid; gap:10px">
+          <div class="pill"><i class="fa-solid fa-building-columns"></i> Ngân hàng: <b>${r.details?.bank||"—"}</b></div>
+          <div class="pill"><i class="fa-solid fa-hashtag"></i> TK nhận: <b>${r.details?.toAcc||"—"}</b></div>
+          <div class="pill"><i class="fa-regular fa-message"></i> Nội dung: <b>${r.details?.content||"—"}</b></div>
+        </div>
+      </div>
+    `;
+  }
+
+  return `<div class="card" style="margin-top:14px"><h2>Chi tiết</h2><div class="sub">—</div></div>`;
+}
+
+/* =========================================================
+   CREATE MODAL (forms by service)
+========================================================= */
+function openCreateModal(serviceKey="tet"){
+  $("#overlay").classList.add("show");
+  $("#fService").value = serviceKey;
+  $("#fNote").value = "";
+  $("#fDate").value = "";
+  $("#fSlot").value = "09:00 - 10:00";
+  $("#fBranch").value = DB.me.branch || "Trụ sở chính";
+  renderDynamicForm();
+}
+function closeModal(){ $("#overlay").classList.remove("show"); }
+
+function renderDynamicForm(){
+  const k = $("#fService").value;
+  const cfg = DB.tetConfig;
+  let html = "";
+
+  if(k==="tet"){
+    html = `
+      <div class="card" style="padding:14px">
+        <h2>Đổi tiền Tết</h2>
+        <div class="sub">Chọn mệnh giá & số lượng. Hệ thống tính tổng và kiểm tra Min/Max.</div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label>Cách nộp tiền</label>
+            <select id="tetPayMethod">
+              ${cfg.paymentMethods.map(p=>`<option>${p}</option>`).join("")}
+            </select>
+            <div class="hint">Nếu chuyển khoản: nhập mã tham chiếu.</div>
+          </div>
+          <div class="field">
+            <label>Mã tham chiếu (nếu có)</label>
+            <input id="tetRef" class="input" placeholder="VD: IB-123456" />
+          </div>
+        </div>
+
+        <div style="margin-top:12px" class="tableWrap">
+          <table style="min-width:700px">
+            <thead><tr><th>Mệnh giá</th><th>Số lượng</th><th>Thành tiền</th></tr></thead>
+            <tbody id="tetRows">
+              ${cfg.denominations.map(d=>`
+                <tr data-den="${d}">
+                  <td>${Number(d).toLocaleString("vi-VN")}</td>
+                  <td><input class="input tetQty" style="max-width:140px" placeholder="0" value="0"/></td>
+                  <td class="tetSum">${fmtVND(0)}</td>
+                </tr>
+              `).join("")}
+            </tbody>
+            <tfoot>
+              <tr><td colspan="2" style="font-weight:900">Tổng</td><td style="font-weight:900" id="tetTotal">${fmtVND(0)}</td></tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="hint" style="margin-top:10px">
+          Min: <b>${fmtVND(cfg.min)}</b> • Max: <b>${fmtVND(cfg.max)}</b>
+        </div>
+      </div>
+    `;
+  }
+
+  if(k==="supply"){
+    html = `
+      <div class="card" style="padding:14px">
+        <h2>Cấp túi rác / đồ dùng</h2>
+        <div class="sub">Chọn vật tư trong kho (demo). Có định mức tháng (demo).</div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label>Vật tư</label>
+            <select id="supItem">
+              ${DB.inventory.filter(i=>i.group==="Đồ dùng").map(i=>`<option value="${i.code}">${i.code} • ${i.name} (tồn ${i.stock})</option>`).join("")}
+            </select>
+          </div>
+          <div class="field">
+            <label>Số lượng</label>
+            <input id="supQty" class="input" value="1" />
+          </div>
+        </div>
+
+        <div class="hint" style="margin-top:10px">Demo định mức: <b>2 lần/tháng</b>. Vượt định mức sẽ chuyển duyệt.</div>
+      </div>
+    `;
+  }
+
+  if(k==="plant"){
+    html = `
+      <div class="card" style="padding:14px">
+        <h2>Cây cảnh</h2>
+        <div class="sub">Chọn loại cây, số lượng và mục đích (chương trình/điểm/thưởng...).</div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field">
+            <label>Loại cây</label>
+            <select id="plName">
+              ${DB.inventory.filter(i=>i.group==="Cây cảnh").map(i=>`<option>${i.name}</option>`).join("")}
+              <option>Cây trầu bà</option>
+              <option>Cây sen đá</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Số lượng</label>
+            <input id="plQty" class="input" value="1" />
+          </div>
+        </div>
+
+        <div class="field" style="margin-top:12px">
+          <label>Mục đích / lý do</label>
+          <input id="plReason" class="input" placeholder="VD: chương trình Green Office / đổi điểm / thưởng..." />
+        </div>
+
+        <div class="hint" style="margin-top:10px">Demo: mỗi nhân viên <b>tối đa 1 cây/đợt</b> (có thể sửa rule sau).</div>
+      </div>
+    `;
+  }
+
+  if(k==="transfer"){
+    html = `
+      <div class="card" style="padding:14px">
+        <h2>Chuyển khoản nội bộ</h2>
+        <div class="sub">Nhập người nhận, ngân hàng, số tiền, nội dung. Có thể yêu cầu chứng từ.</div>
+
+        <div class="row" style="margin-top:12px">
+          <div class="field"><label>Người nhận</label><input id="trToName" class="input" placeholder="Họ tên người nhận" /></div>
+          <div class="field"><label>Số tài khoản</label><input id="trToAcc" class="input" placeholder="VD: 0123456789" /></div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <div class="field"><label>Ngân hàng</label><input id="trBank" class="input" placeholder="VD: HSBC / Citi /..." /></div>
+          <div class="field"><label>Số tiền (VND)</label><input id="trAmount" class="input" placeholder="VD: 2000000" /></div>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label>Nội dung chuyển</label>
+          <input id="trContent" class="input" placeholder="VD: hoàn phí công tác / hỗ trợ..." />
+        </div>
+        <div class="hint" style="margin-top:10px">Số tiền sẽ format theo VND khi lưu.</div>
+      </div>
+    `;
+  }
+
+  $("#dynamicForm").innerHTML = html;
+  $("#formHint").textContent = hintText(k);
+
+  // bind tet calc
+  if(k==="tet"){
+    $$(".tetQty").forEach(inp=>{
+      inp.oninput = calcTetTotal;
+    });
+    calcTetTotal();
+  }
+}
+
+function hintText(k){
+  if(k==="tet") return "Tip: nhập số lượng theo từng mệnh giá, hệ thống tự tính tổng và cảnh báo Min/Max.";
+  if(k==="supply") return "Tip: ghi rõ loại túi, mục đích và số lần/tháng để kho/OPS xử lý nhanh.";
+  if(k==="plant") return "Tip: cần lý do (chương trình/đổi điểm) và loại cây để tránh phát sai.";
+  if(k==="transfer") return "Tip: cần người nhận, TK, ngân hàng, số tiền, nội dung và ref nếu có.";
+  return "";
+}
+
+function calcTetTotal(){
+  let total = 0;
+  $$("tr[data-den]").forEach(tr=>{
+    const den = Number(tr.dataset.den);
+    const qty = Number($(".tetQty", tr).value || 0);
+    const sum = den*qty;
+    total += sum;
+    $(".tetSum", tr).textContent = fmtVND(sum);
+  });
+  $("#tetTotal").textContent = fmtVND(total);
+}
+
+/* Submit create */
+function submitCreate(){
+  const serviceKey = $("#fService").value;
+  const branch = $("#fBranch").value;
+  const date = ($("#fDate").value || "").trim();
+  const slot = $("#fSlot").value;
+  const note = ($("#fNote").value || "").trim();
+
+  if(!date) return alert("Vui lòng nhập Ngày nhận (dd/mm/yyyy).");
+
+  const service = DB.services.find(s=>s.key===serviceKey);
+  const id = "REQ-" + String(Math.floor(1000 + Math.random()*9000));
+
+  const req = {
+    id,
+    serviceKey,
+    serviceName: service?.name || "—",
+    created: nowStr().split(" ")[0], // dd/mm/yyyy
+    status: "pending",
+    branch,
+    pickup: `${date} • ${slot}`,
+    note: note || "",
+    createdBy: { name: DB.me.name, email: DB.me.email },
+    details: {},
+    audit: []
+  };
+
+  // details by service
+  if(serviceKey==="tet"){
+    const denomItems = [];
+    $$("tr[data-den]").forEach(tr=>{
+      const denom = Number(tr.dataset.den);
+      const qty = Number($(".tetQty", tr).value || 0);
+      if(qty>0) denomItems.push({denom, qty});
+    });
+    if(!denomItems.length) return alert("Bạn chưa nhập số lượng mệnh giá.");
+
+    const total = denomItems.reduce((s,x)=> s + x.denom*x.qty, 0);
+    const cfg = DB.tetConfig;
+    if(total < cfg.min) return alert(`Tổng ${fmtVND(total)} < Min ${fmtVND(cfg.min)}.`);
+    if(total > cfg.max) return alert(`Tổng ${fmtVND(total)} > Max ${fmtVND(cfg.max)}.`);
+
+    req.details = {
+      denomItems,
+      payment: $("#tetPayMethod").value,
+      ref: ($("#tetRef").value || "").trim(),
+      total
+    };
+  }
+
+  if(serviceKey==="supply"){
+    const code = $("#supItem").value;
+    const item = DB.inventory.find(i=>i.code===code);
+    const qty = Number($("#supQty").value || 0);
+    if(qty<=0) return alert("Số lượng không hợp lệ.");
+    req.details = {
+      items:[{ code, name:item?.name||"", qty, unit:item?.unit||"" }],
+      monthCount: 1,
+      monthLimit: 2
+    };
+  }
+
+  if(serviceKey==="plant"){
+    const plantName = ($("#plName").value || "").trim();
+    const qty = Number($("#plQty").value || 0);
+    const reason = ($("#plReason").value || "").trim();
+    if(qty<=0) return alert("Số lượng không hợp lệ.");
+    if(!reason) return alert("Vui lòng nhập mục đích/lý do.");
+    req.details = { plantName, qty, reason, program:"Green Office" };
+  }
+
+  if(serviceKey==="transfer"){
+    const toName = ($("#trToName").value || "").trim();
+    const toAcc = ($("#trToAcc").value || "").trim();
+    const bank = ($("#trBank").value || "").trim();
+    const amount = Number(($("#trAmount").value || "").trim() || 0);
+    const content = ($("#trContent").value || "").trim();
+    if(!toName || !toAcc || !bank || amount<=0 || !content){
+      return alert("Chuyển khoản: thiếu thông tin người nhận / TK / ngân hàng / số tiền / nội dung.");
+    }
+    req.details = { toName, toAcc, bank, amount, content };
+  }
+
+  // audit init
+  req.audit.push({ time: nowStr(), action:"Tạo yêu cầu", by: DB.me.name, note:"—" });
+
+  DB.requests.unshift(req);
+  saveState();
+  closeModal();
+  alert(`Đã tạo ${req.id} (demo).`);
+  location.hash = "#/u/requests";
+}
+
+/* ---------- Bind modal ---------- */
+$("#btnCloseModal").onclick = closeModal;
+$("#btnCancel").onclick = closeModal;
+$("#overlay").addEventListener("click", (e)=>{ if(e.target.id==="overlay") closeModal(); });
+$("#fService").onchange = renderDynamicForm;
+$("#btnSubmit").onclick = submitCreate;
+$("#btnCreateGlobal").onclick = ()=> openCreateModal("tet");
+
+/* ---------- Sidebar + reset/logout ---------- */
+$("#btnToggle").onclick = ()=> $("#sidebar").classList.toggle("show");
+$("#btnReset").onclick = resetDemo;
+$("#btnLogout").onclick = ()=> alert("Demo: logout (chưa có backend).");
+
+/* ---------- Sync me ---------- */
+function syncMe(){
+  $("#meName").textContent = DB.me.name;
+  $("#meRole").textContent = DB.me.role;
+  $("#meBranch").textContent = DB.me.branch;
+}
+syncMe();
+
+/* ---------- Start ---------- */
+setInterval(updateClock, 1000);
+updateClock();
+route();
+</script>
 </body>
-
 </html>
