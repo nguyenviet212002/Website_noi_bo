@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Cổng Dịch Vụ Nội Bộ</title>
-
+  
   <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 
@@ -337,7 +337,9 @@
   <!-- SIDEBAR -->
   <aside class="side" id="sidebar">
     <div class="brand">
-      <div class="logo"></div>
+      <div class="logo" style="display: block;">
+        <img src="logo.png" alt="" style="width: 100%;height: 100%;object-fit: cover;border-radius: 10%;">
+      </div>
       <div>
         <h1>Cổng Dịch Vụ Nội Bộ</h1>
         <div class="sub">Dành cho nhân viên • Doanh nghiệp</div>
@@ -348,7 +350,7 @@
       <div class="navTitle">Nhân viên</div>
       <nav class="nav" id="navUser">
         <a href="#/u/overview" data-route="/u/overview"><i class="fa-solid fa-house"></i> Tổng quan</a>
-        <a href="#/u/services" data-route="/u/services"><i class="fa-regular fa-grid-2"></i> Danh mục dịch vụ</a>
+        <a href="#/u/services" data-route="/u/services"><i class="fa-solid fa-clipboard-list"></i> Danh mục dịch vụ</a>
         <a href="#/u/requests" data-route="/u/requests"><i class="fa-regular fa-rectangle-list"></i> Yêu cầu của tôi</a>
         <a href="#/u/guide" data-route="/u/guide"><i class="fa-regular fa-circle-question"></i> Hướng dẫn</a>
         <a href="#/u/account" data-route="/u/account"><i class="fa-regular fa-user"></i> Tài khoản</a>
@@ -359,7 +361,7 @@
       <div class="navTitle">Admin</div>
       <nav class="nav" id="navAdmin">
         <a href="#/a/dashboard" data-route="/a/dashboard"><i class="fa-solid fa-chart-simple"></i> Admin tổng quan</a>
-        <a href="#/a/approvals" data-route="/a/approvals"><i class="fa-solid fa-check-double"></i> Duyệt yêu cầu</a>
+        <a href="#/a/approvals" data-route="/a/approvals" ><i class="fa-solid fa-check-double"></i> Duyệt yêu cầu</a>
         <a href="#/a/tet" data-route="/a/tet"><i class="fa-solid fa-coins"></i> Đợt đổi tiền Tết</a>
         <a href="#/a/inventory" data-route="/a/inventory"><i class="fa-solid fa-warehouse"></i> Kho & tồn</a>
       </nav>
@@ -381,7 +383,7 @@
       <div class="crumb">
         <button type="button" class="btn icon mobileToggle" id="btnToggle"><i class="fa-solid fa-bars"></i></button>
         <div>
-          <p class="hTitle" id="pageTitle">Tổng quan</p>
+          <p class="hTitle" id="pageTitle" style="font-weight: 700;font-size: larger;">Tổng quan</p>
           <div class="hSub" id="pageSub">Nhìn nhanh trạng thái dịch vụ và các yêu cầu gần đây.</div>
         </div>
       </div>
@@ -410,9 +412,9 @@
         <div class="field">
           <label>Dịch vụ</label>
           <select id="fService">
-            <option value="tet">Đổi tiền Tết</option>
+            <option value="tet" >Đổi tiền Tết</option>
             <option value="supply">Cấp túi rác / đồ dùng</option>
-            <option value="plant">Cây cảnh</option>
+            <option value="plant">Cây xanh văn phòng</option>
             <option value="transfer">Chuyển khoản nội bộ</option>
           </select>
           <div class="hint">Chọn đúng dịch vụ để hiển thị form theo nghiệp vụ.</div>
@@ -528,7 +530,7 @@ const SEED = {
       tags:["Theo định mức","Có tồn kho","Audit"]
     },
     {
-      key:"plant", name:"Cây cảnh", icon:"fa-seedling",
+      key:"plant", name:"Cây xanh văn phòng", icon:"fa-seedling",
       desc:"Đăng ký nhận cây theo chương trình nội bộ; mỗi nhân viên giới hạn số lượng/đợt.",
       sla:"1–2 ngày",
       tags:["Theo chương trình","Giới hạn lượt","Check-in"]
@@ -551,7 +553,7 @@ const SEED = {
   inventory: [
     { code:"SUP-001", name:"Túi rác đen 60×80", group:"Đồ dùng", unit:"Cuộn", stock:120, min:50, warehouse:"Kho Trụ sở" },
     { code:"SUP-014", name:"Túi rác phân loại (xanh)", group:"Đồ dùng", unit:"Cuộn", stock:18, min:30, warehouse:"Kho Trụ sở" },
-    { code:"PL-002", name:"Cây lưỡi hổ mini", group:"Cây cảnh", unit:"Cây", stock:42, min:20, warehouse:"Kho Sảnh" },
+    { code:"PL-002", name:"Cây lưỡi hổ mini", group:"cây xanh văn phòng", unit:"Cây", stock:42, min:20, warehouse:"Kho Sảnh" },
   ],
 
   inventoryAudit: [
@@ -588,7 +590,7 @@ const SEED = {
       ]
     },
     {
-      id:"REQ-1009", serviceKey:"plant", serviceName:"Cây cảnh",
+      id:"REQ-1009", serviceKey:"plant", serviceName:"Cây xanh văn phòng",
       created:"10/12/2025", status:"done",
       branch:"Chi nhánh A",
       pickup:"12/12 • 15:30", note:"Đã check-in nhận",
@@ -705,7 +707,7 @@ function renderUserOverview(){
   view(`
     <div class="grid">
       <div class="card">
-        <h2>Phím tắt</h2>
+        <h2 style="font-weight: 700;font-size: medium;">Phím tắt</h2>
         <div class="sub">Chọn dịch vụ và tạo yêu cầu theo mẫu đúng nghiệp vụ.</div>
 
         <div class="svcGrid" style="grid-template-columns: repeat(3,1fr); margin-top:14px">
@@ -713,7 +715,7 @@ function renderUserOverview(){
             <div class="svc" data-open="${s.key}">
               <div class="svcIcon"><i class="fa-solid ${s.icon}"></i></div>
               <div style="flex:1">
-                <h3>${s.name}</h3>
+                <h3 style="font-weight: 600;font-size: medium;">${s.name}</h3>
                 <p>${s.desc}</p>
                 <div class="meta">
                   <span class="pill"><i class="fa-regular fa-clock"></i> ${s.sla}</span>
@@ -725,7 +727,7 @@ function renderUserOverview(){
       </div>
 
       <div class="card">
-        <h2>Chỉ số nhanh</h2>
+        <h2 style="font-weight: 700;font-size: medium;">Chỉ số nhanh</h2>
         <div class="sub">Tổng hợp theo trạng thái.</div>
         <div style="margin-top:12px; display:grid; gap:10px">
           <div class="pill pending"><span class="dot"></span> Chờ duyệt: <b>${pending}</b></div>
@@ -791,7 +793,7 @@ function renderUserServices(){
     <div class="card">
       <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
         <div>
-          <h2>Danh sách dịch vụ</h2>
+          <h2 style="font-weight: 700;font-size: medium;">Danh sách dịch vụ</h2>
           <div class="sub">Giao diện user: mô tả rõ “cần nhập gì” để tránh sai.</div>
         </div>
         <button type="button" class="btn primary" id="btnCreateOnServices"><i class="fa-solid fa-plus"></i> Tạo yêu cầu</button>
@@ -844,7 +846,7 @@ function renderServicesGrid(){
     <div class="svc" data-open="${s.key}">
       <div class="svcIcon"><i class="fa-solid ${s.icon}"></i></div>
       <div style="flex:1">
-        <h3>${s.name}</h3>
+        <h3 style="font-weight: 600;font-size: medium;">${s.name}</h3>
         <p>${s.desc}</p>
         <div class="meta">
           <span class="pill"><i class="fa-regular fa-clock"></i> ${s.sla}</span>
@@ -975,12 +977,12 @@ function renderUserGuide(){
   const tet = DB.tetConfig;
   view(`
     <div class="card">
-      <h2>Quy định chung</h2>
+      <h2 style="font-weight: 700;font-size: medium;">Quy định chung</h2>
       <div class="sub">Một số quy tắc vận hành gọn và minh bạch.</div>
       <div style="margin-top:12px; display:grid; gap:10px">
-        <div class="pill"><i class="fa-solid fa-coins"></i> Đổi tiền Tết: Min <b>${fmtVND(tet.min)}</b> • Max <b>${fmtVND(tet.max)}</b> • Chọn cách nộp tiền.</div>
+        <div class="pill" ><i class="fa-solid fa-coins"></i> Đổi tiền Tết: Min <b>${fmtVND(tet.min)}</b> • Max <b>${fmtVND(tet.max)}</b> • Chọn cách nộp tiền.</div>
         <div class="pill"><i class="fa-solid fa-boxes-stacked"></i> Đồ dùng/túi rác: Trong định mức auto duyệt; vượt định mức chuyển duyệt.</div>
-        <div class="pill"><i class="fa-solid fa-seedling"></i> Cây cảnh: Có chương trình; giới hạn số cây/đợt; check-in khi nhận.</div>
+        <div class="pill"><i class="fa-solid fa-seedling"></i> Cây xanh văn phòng: Có chương trình; giới hạn số cây/đợt; check-in khi nhận.</div>
         <div class="pill"><i class="fa-solid fa-file-circle-check"></i> Mọi thay đổi đều có audit log; xuất CSV để lưu sheet.</div>
       </div>
     </div>
@@ -993,7 +995,7 @@ function renderUserAccount(){
   view(`
     <div class="grid">
       <div class="card">
-        <h2>Thông tin người dùng</h2>
+        <h2 style="font-weight: 700;font-size: medium;">Thông tin người dùng</h2>
         <div class="sub">Demo UI • Thực tế sẽ lấy từ SSO/LDAP.</div>
         <div class="row" style="margin-top:12px">
           <div class="field"><label>Họ và tên</label><input class="input" id="acName" value="${me.name}"></div>
@@ -1010,10 +1012,10 @@ function renderUserAccount(){
       </div>
 
       <div class="card">
-        <h2>Quyền truy cập</h2>
+        <h2 style="font-weight: 700;font-size: medium;">Quyền truy cập</h2>
         <div class="sub">Danh sách quyền theo vai trò (RBAC).</div>
         <div style="margin-top:12px; display:grid; gap:10px">
-          <div class="pill"><i class="fa-solid fa-check-double"></i> Duyệt yêu cầu</div>
+          <div class="pill" ><i class="fa-solid fa-check-double"></i> Duyệt yêu cầu</div>
           <div class="pill"><i class="fa-solid fa-warehouse"></i> Quản lý kho & tồn</div>
           <div class="pill"><i class="fa-solid fa-coins"></i> Quản lý đợt đổi tiền</div>
         </div>
@@ -1055,28 +1057,28 @@ function renderAdminDashboard(){
         <div class="svc" onclick="location.hash='#/a/approvals'">
           <div class="svcIcon"><i class="fa-solid fa-check-double"></i></div>
           <div>
-            <h3>Duyệt yêu cầu</h3>
+            <h3 style="font-weight: 700;font-size: medium;">Duyệt yêu cầu</h3>
             <p>Duyệt / từ chối / xử lý hàng loạt + xuất CSV.</p>
           </div>
         </div>
         <div class="svc" onclick="location.hash='#/a/tet'">
           <div class="svcIcon"><i class="fa-solid fa-coins"></i></div>
           <div>
-            <h3>Đợt đổi tiền Tết</h3>
+            <h3 style="font-weight: 700;font-size: medium;">Đợt đổi tiền Tết</h3>
             <p>Min/Max, mệnh giá, phương thức nộp tiền, quy tắc.</p>
           </div>
         </div>
         <div class="svc" onclick="location.hash='#/a/inventory'">
           <div class="svcIcon"><i class="fa-solid fa-warehouse"></i></div>
           <div>
-            <h3>Kho & tồn</h3>
+            <h3 style="font-weight: 700;font-size: medium;">Kho & tồn</h3>
             <p>Nhập/xuất tồn kho + audit + xuất CSV.</p>
           </div>
         </div>
         <div class="svc" onclick="location.hash='#/u/account'">
           <div class="svcIcon"><i class="fa-regular fa-user"></i></div>
           <div>
-            <h3>Tài khoản</h3>
+            <h3 style="font-weight: 700;font-size: medium;">Tài khoản</h3>
             <p>Thông tin & quyền truy cập.</p>
           </div>
         </div>
@@ -1086,7 +1088,7 @@ function renderAdminDashboard(){
     <div class="card" style="margin-top:14px">
       <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
         <div>
-          <h2>Yêu cầu mới nhất</h2>
+          <h2 style="font-weight: 700;font-size: medium;">Yêu cầu mới nhất</h2>
           <div class="sub">Bấm mã để xem chi tiết.</div>
         </div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -1310,7 +1312,7 @@ function renderAdminTet(){
   view(`
     <div class="grid">
       <div class="card">
-        <h2>Cấu hình min/max</h2>
+        <h2 style="font-weight: 700;font-size: medium;">Cấu hình min/max</h2>
         <div class="sub">Áp dụng cho mỗi nhân viên / mỗi đợt.</div>
 
         <div class="row" style="margin-top:12px">
@@ -1344,7 +1346,7 @@ function renderAdminTet(){
       </div>
 
       <div class="card">
-        <h2>Kiểm tra nhanh</h2>
+        <h2 style="font-weight: 700;font-size: medium;">Kiểm tra nhanh</h2>
         <div class="sub">Form tạo “Đổi tiền Tết” sẽ auto theo cấu hình này.</div>
         <div style="margin-top:12px; display:grid; gap:10px">
           <div class="pill"><i class="fa-solid fa-money-bill-wave"></i> Min: <b>${fmtVND(cfg.min)}</b></div>
@@ -1435,7 +1437,7 @@ function renderAdminInventory(){
     </div>
 
     <div class="card" style="margin-top:14px">
-      <h2>Lịch sử nhập/xuất (Audit)</h2>
+      <h2 style="font-weight: 700;font-size: medium;">Lịch sử nhập/xuất (Audit)</h2>
       <div class="sub">Ai • lúc nào • nhập/xuất bao nhiêu • ghi chú.</div>
 
       <div class="tableWrap" style="margin-top:12px">
@@ -1684,7 +1686,7 @@ function buildDetailBlock(r){
   if(r.serviceKey==="plant"){
     return `
       <div class="card" style="margin-top:14px">
-        <h2>Chi tiết cây cảnh</h2>
+        <h2>Chi tiết cây xanh văn phòng</h2>
         <div style="margin-top:12px; display:grid; gap:10px">
           <div class="pill"><i class="fa-solid fa-seedling"></i> Loại cây: <b>${r.details?.plantName||"—"}</b></div>
           <div class="pill"><i class="fa-regular fa-square-check"></i> Số lượng: <b>${r.details?.qty||0}</b></div>
@@ -1802,14 +1804,14 @@ function renderDynamicForm(){
   if(k==="plant"){
     html = `
       <div class="card" style="padding:14px">
-        <h2>Cây cảnh</h2>
+        <h2>cây xanh văn phòng</h2>
         <div class="sub">Chọn loại cây, số lượng và mục đích (chương trình/điểm/thưởng...).</div>
 
         <div class="row" style="margin-top:12px">
           <div class="field">
             <label>Loại cây</label>
             <select id="plName">
-              ${DB.inventory.filter(i=>i.group==="Cây cảnh").map(i=>`<option>${i.name}</option>`).join("")}
+              ${DB.inventory.filter(i=>i.group==="cây xanh văn phòng").map(i=>`<option>${i.name}</option>`).join("")}
               <option>Cây trầu bà</option>
               <option>Cây sen đá</option>
             </select>
